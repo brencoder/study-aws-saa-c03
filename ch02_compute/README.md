@@ -129,12 +129,20 @@ On-demand:
 * Pay per hour or per second, with a minimum spend of 60 seconds.
 
 Reserved:
-* Get a discount on instances that certain instance attributes:
+* It is a billing discount on On-Demand instances that match a certain configuration, where a configuration consists of:
     * Instance type: E.g., `t2.micro` or `c7gn.xlarge`
-    * Region
-    * Availability Zone
-    * Tenancy: shared, Dedicated Instance or Dedicated Host
-    * Platform: which OS.
+    * Scope: either a particular region or a particular Availability Zone
+    * Tenancy: shared (default), Dedicated Instance or Dedicated Host
+    * [Platform](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-concepts-buying.html#ri-choosing-platform): which OS. Options include:
+        * Linux/UNIX (excluding SUSE Linux and RHEL)
+        * Linux with SQL Server (with subcategories for SQL Server Standard, Web and Enterprise)
+        * SUSE Linux
+        * RHEL
+        * RHEL with HA
+        * Windows
+        * Windows with SQL Server (with subcategories for SQL Server Standard, Web and Enterprise)
+
+        > **NOTE:** When buying a Reserved Instance, make sure that its `PlatformDetails` field matches that of of the On-Demand instances that you want to apply the Reserved Instance on.
 * Term commitment:
     * One year
     * Three years
@@ -143,11 +151,29 @@ Reserved:
     * All upfront
     * Partial upfront
     * No upfront
-* [Offering class](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/reserved-instances-types.html):
-    * Standard: can be modified but not exchanged.
-    * Convertible: can be modified or exchanged. Due to the extra flexibility, Convertible Reserved Instances ore expensive than Standard Reserved Instances.
-    * TODO
+* [Offering class](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/reserved-instances-types.html) **TODO**
 
+    |Offering class|Can modify|Can *exchange*|Can buy and sell in Reserved Instance Marketplace|Price|
+    |---|---|---|---|---|
+    |Standard|Yes|No|Yes|$|
+    |Convertible|Yes|Yes|No|$$$|
+
+    Where exchanging means ... **TODO**
+
+    Where the Reserved Instance Marketplace is ... **TODO**
+* Working with Reserved Instances:
+    * Buying a Reserved Instance:
+        1. Search for *Reserved Instance offerings* from AWS and third-party sellers. To do this, use the EC2 CLI's [describe-reserved-instances-offerings](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances-offerings.html) operation, where:
+            * Instance type: `--instance-type`
+            * Scope: `scope` combined with either `--availability-zone` or `--region`
+            * Tenancy: `--instance-tenancy`
+            * Platform: `--product-description`
+        2. Review the offerings (quotes) that are returned.
+        3. Proceed with an offering. To do this, use the EC2 CLI's [purchase-reserved-instances-offerings](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances-offerings.html) operation
+        4. As purchase prices fluctuate, AWS places a limit on the purchase price. The purchase proceeds only if the total cost does not exceed your quote.
+        4. :x: TODO
+    * Modifying a Reserved Instance:
+    * Editing
 
 Spot
 
