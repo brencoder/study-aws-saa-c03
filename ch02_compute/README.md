@@ -86,7 +86,7 @@ If you have *interdependent* instances, then you can use *placement groups* to i
 
 You can create a placement group using one of three placement strategies: cluster, partition and spread.
 
-Cluster:
+#### Cluster
 * What is it?
     * Puts instances close together inside an AZ.
     * Can span multiple peered VPCs in the same region.
@@ -97,7 +97,7 @@ Cluster:
     * Use a single request to launch all instances of a cluster placement group.
     * Use a common instance type for all instances in a cluster placement group.
 
-Partition:
+#### Partition
 
 * What is it?
     * Spreads instances across logical partitions. You number the partitions 1, 2, 3, and so on, up to a maximum of 7.
@@ -106,7 +106,7 @@ Partition:
     * Good for reducing the likelihood of correlated hardware failures for your application.
     * Suitable workloads involve large distributed and replicated processing. For example, Hadoop, where a network of many computers solves a problem involving massive amounts of data and computation.
 
-Spread:
+#### Spread
 
 * What is it?
     * A group of instances where each instance is placed on distinct hardware.
@@ -118,64 +118,123 @@ Spread:
     * Host level spread level placement groups - only available with [AWS Outputs](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html), where AWS Outputs is a fully managed service where AWS operates that part of your on-premises datacentre as part of an AWS region
 
 Difference between partition and spread:
-* No two instances of a spread placement group will ever be on the same hardware.
-* With partition placement groups, no two *partitions* will ever be on the same hardware. However, two instances of a single partition could be on the same hardware.
+* With spread placement groups, no two *instances* of a spread placement group will ever be on the same hardware.
+* With partition placement groups, no two *partitions* will ever be on the same hardware. However, within a given partition, two instances could be on the same hardware.
 
 ### Instance pricing
 
 Models: on-demand, reserved, spot, AWS Savings Plan and scheduled.
 
-On-demand:
-* Pay per hour or per second, with a minimum spend of 60 seconds.
+#### On-demand
+Pay per hour or per second, with a minimum spend of 60 seconds and no term commitment.
 
-Reserved:
-* It is a billing discount on On-Demand instances that match a certain configuration, where a configuration consists of:
-    * Instance type: E.g., `t2.micro` or `c7gn.xlarge`
-    * Scope: either a particular region or a particular Availability Zone
-    * Tenancy: shared (default), Dedicated Instance or Dedicated Host
-    * [Platform](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-concepts-buying.html#ri-choosing-platform): which OS. Options include:
-        * Linux/UNIX (excluding SUSE Linux and RHEL)
-        * Linux with SQL Server (with subcategories for SQL Server Standard, Web and Enterprise)
-        * SUSE Linux
-        * RHEL
-        * RHEL with HA
-        * Windows
-        * Windows with SQL Server (with subcategories for SQL Server Standard, Web and Enterprise)
+#### Reserved
 
-        > **NOTE:** When buying a Reserved Instance, make sure that its `PlatformDetails` field matches that of of the On-Demand instances that you want to apply the Reserved Instance on.
-* Term commitment:
-    * One year
-    * Three years
-* When the term of a Reserved Instance expires, you continue using its EC2 instance at on-demand rates until you terminate the instances or purchase new Reserved Instances that match the instance attributes.
-* Payment options:
-    * All upfront
-    * Partial upfront
-    * No upfront
-* [Offering class](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/reserved-instances-types.html) **TODO**
+If you plan to run an instance for over a year, you should consider buying a Reserved Instance to save money.
 
-    |Offering class|Can modify|Can *exchange*|Can buy and sell in Reserved Instance Marketplace|Price|
-    |---|---|---|---|---|
-    |Standard|Yes|No|Yes|$|
-    |Convertible|Yes|Yes|No|$$$|
+A Reserved Instance is not a type of instance but rather a billing discount on On-Demand instances that match a certain *configuration* in return for committing to payment for a certain *term*, or amount of time.
 
-    Where exchanging means ... **TODO**
+A configuration consists of:
+* Instance type: E.g., `t2.micro` or `c7gn.xlarge`
+* Scope: either a particular region or a particular Availability Zone
+* Tenancy: shared (default), Dedicated Instance or Dedicated Host
+* [Platform](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-concepts-buying.html#ri-choosing-platform): which OS. Options include:
+    * Linux/UNIX (excluding SUSE Linux and RHEL)
+    * Linux with SQL Server (with subcategories for SQL Server Standard, Web and Enterprise)
+    * SUSE Linux
+    * RHEL
+    * RHEL with HA
+    * Windows
+    * Windows with SQL Server (with subcategories for SQL Server Standard, Web and Enterprise)
 
-    Where the Reserved Instance Marketplace is ... **TODO**
-* Working with Reserved Instances:
-    * Buying a Reserved Instance:
-        1. Search for *Reserved Instance offerings* from AWS and third-party sellers. To do this, use the EC2 CLI's [describe-reserved-instances-offerings](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances-offerings.html) operation, where:
-            * Instance type: `--instance-type`
-            * Scope: `scope` combined with either `--availability-zone` or `--region`
-            * Tenancy: `--instance-tenancy`
-            * Platform: `--product-description`
-        2. Review the offerings (quotes) that are returned.
-        3. Proceed with an offering. To do this, use the EC2 CLI's [purchase-reserved-instances-offerings](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances-offerings.html) operation
-        4. As purchase prices fluctuate, AWS places a limit on the purchase price. The purchase proceeds only if the total cost does not exceed your quote.
-        4. :x: TODO
-    * Modifying a Reserved Instance:
-    * Editing
+    > **NOTE:** When buying a Reserved Instance, make sure that its `PlatformDetails` field matches that of of the On-Demand instances that you want to apply the Reserved Instance on.
 
-Spot
+To buy a Reserved Instance, you must commit to a term of either:
+* One year
+* Three years
+
+When the term of a Reserved Instance expires, you continue using its EC2 instance at on-demand rates until you terminate the instances or purchase new Reserved Instances that match the instance attributes.
+
+The discount offered by a Reserved Instance depends on not just the term but also your payment option:
+* All upfront
+* Partial upfront
+* No upfront
+
+If your compute needs change, you might want to change your Reserved Instance or sell it. At purchase time, you should assess what types of changes you are likely to need, and then decide which [offering class](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/reserved-instances-types.html) to purchase, where the offering classes are as follows:
+
+|Offering class|Can modify|Can *exchange*|Can buyand sell in Reserved Instance Marketplace|Price|
+|---|---|---|---|---|
+|Standard|Yes|No|Yes|$|
+|Convertible|Yes|Yes|No|$$$|
+
+##### Modifying a Reserved Instance
+[*Modifying*](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html) a Reserved Instance (Standard or Convertible) involves changing attributes like:
+
+* AZ (within the same region)
+* Instance size (within the same instance family and generation)
+* Scope (zonal or regional)
+* Number of instances
+
+You can split your original Reserved Instances into two or more new Reserved Instances. E.g., Convert a reservation for 10 instances in ap-southeast-2a to:
+* A reservation for 3 instances in ap-southeast-2a
+* A reservation for 7 instances in ap-southeast-2b
+
+You can also merge two or more Reserved Instances into a single Reserved Instance.
+
+However, there are certain attributes you can't change through *modification*. They include instance family, operating system type and tenancy. However, if you had purchased a Convertible Reserved Instance, then you can change change those attributes through *exchange*.
+
+##### Exchanging a Reserved Instance
+[*Exchanging*](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-convertible-exchange.html) is possible only for a Convertible Reserved Instance, and means replacing it with another Convertible Reserved Instance that has a different configuration, including instance family, platform, tenancy and scope.
+
+You can exchange as many times as you like, but you must ensure the new Convertible Reserved Instance is of an equal or higher value than the old Convertible Reserved Instance.
+
+On the other hand, Standard Reserved Instances cannot be exchanged but they can be sold on the Reserved Instance Marketplace.
+
+##### Buying a Reserved Instance:
+1. Search for *Reserved Instance offerings* from AWS and third-party sellers. To do this, use the EC2 CLI's [describe-reserved-instances-offerings](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances-offerings.html) operation, where:
+    * Instance type: `--instance-type`
+    * Scope: `scope` combined with either `--availability-zone` or `--region`
+    * Tenancy: `--instance-tenancy`
+    * Platform: `--product-description`
+2. Review the offerings (quotes) that are returned.
+3. Proceed with an offering. To do this, use the EC2 CLI's [purchase-reserved-instances-offerings](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances-offerings.html) operation
+4. As purchase prices fluctuate, AWS places a limit on the purchase price. The purchase proceeds only if the total cost does not exceed your quote.
+
+##### Selling a Standard Reserved Instance
+You register as a seller, list the Standard Reserved Instances that you want to sell and wait for AWS to automatically sell them to interested buyers.
+
+#### On-Demand Capacity Reservations
+
+Sometimes you might need a guarantee that AWS will always have more capacity for more On-Demand instances.
+AWS doesn't provide that guarantee unless you buy an On-Demand Capacity Reservation, also called just a Capacity Reservation.
+
+You pay the equivalent On-Demand rate whether you use the On-Demand Capacity Reservation or not.
+
+You might need an On-Demand Capacity Reservation in these situations:
+* If you anticipate a spike in traffic or business-critical events
+* If you want to ensure smooth disaster recovery
+* If you need to comply with certain regulations regarding high availability.
+
+When you buy a Capacity Reservation, you must decide on:
+* A certain AZ
+* Number of instances
+* Instance attributes, like instance type, OS and tenancy
+
+Unlike a Reserved Instance or [Savings Plan](https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html):
+* No term commitment is required for a Capacity Reservation
+* No discount is available for the matching On-Demand instances
+
+#### Spot
+
+A [Spot Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html) is an instance that uses spare EC2 capacity at a steep discount from the On-Demand price. You could get a discount of up to 90%.
+
+The catch is that a Spot Instance might not be available immediately and EC2 might reclaim the capacity of your Spot Instance with a two-minute warning. Reclaiming results in your Spot Instance either hibernating, stopping or terminating, depending on the choice you made during the purchase of the Spot Instance.
+
+**TODO**
+
+#### Savings Plan
+
+**TODO** [Savings Plan](https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html)
 
 ### Instance lifecycle
 
