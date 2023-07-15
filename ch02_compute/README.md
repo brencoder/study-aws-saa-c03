@@ -115,7 +115,7 @@ You can create a placement group using one of three placement strategies: cluste
     * Reduce the risk of correlated failures when instances share the same equipment.
 * Two types of spread placement groups:
     * Rack spread level placement groups - e.g., where seven instances in a common AZ are placed on seven different racks, where each rack has its own network and power source.
-    * Host level spread level placement groups - only available with [AWS Outputs](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html), where AWS Outputs is a fully managed service where AWS operates that part of your on-premises datacentre as part of an AWS region
+    * Host level spread level placement groups - only available with [AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html), where AWS Outposts is a fully managed service where AWS operates that part of your on-premises datacentre as part of an AWS region
 
 Difference between partition and spread:
 * With spread placement groups, no two *instances* of a spread placement group will ever be on the same hardware.
@@ -132,7 +132,7 @@ Pay per hour or per second, with a minimum spend of 60 seconds and no term commi
 
 If you plan to run an instance for over a year, you should consider buying a Reserved Instance to save money.
 
-A Reserved Instance is not a type of instance but rather a billing discount on On-Demand instances that match a certain *configuration* in return for committing to payment for a certain *term*, or amount of time.
+A Reserved Instance is not a type of instance but rather a billing discount on On-Demand Instances that match a certain *configuration* in return for committing to payment for a certain *term*, or amount of time.
 
 A configuration consists of:
 * Instance type: E.g., `t2.micro` or `c7gn.xlarge`
@@ -147,7 +147,7 @@ A configuration consists of:
     * Windows
     * Windows with SQL Server (with subcategories for SQL Server Standard, Web and Enterprise)
 
-    > **NOTE:** When buying a Reserved Instance, make sure that its `PlatformDetails` field matches that of of the On-Demand instances that you want to apply the Reserved Instance on.
+    > **NOTE:** When buying a Reserved Instance, make sure that its `PlatformDetails` field matches that of of the On-Demand Instances that you want to apply the Reserved Instance on.
 
 To buy a Reserved Instance, you must commit to a term of either:
 * One year
@@ -162,7 +162,7 @@ The discount offered by a Reserved Instance depends on not just the term but als
 
 If your compute needs change, you might want to change your Reserved Instance or sell it. At purchase time, you should assess what types of changes you are likely to need, and then decide which [offering class](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/reserved-instances-types.html) to purchase, where the offering classes are as follows:
 
-|Offering class|Can modify|Can *exchange*|Can buyand sell in Reserved Instance Marketplace|Price|
+|Offering class|Can modify|Can *exchange*|Can buy and sell in Reserved Instance Marketplace|Price|
 |---|---|---|---|---|
 |Standard|Yes|No|Yes|$|
 |Convertible|Yes|Yes|No|$$$|
@@ -196,6 +196,7 @@ On the other hand, Standard Reserved Instances cannot be exchanged but they can 
     * Scope: `scope` combined with either `--availability-zone` or `--region`
     * Tenancy: `--instance-tenancy`
     * Platform: `--product-description`
+    * Whether to buy from Reserved Instance Marketplace: `--include-marketplace` or `--no-include-marketplace`
 2. Review the offerings (quotes) that are returned.
 3. Proceed with an offering. To do this, use the EC2 CLI's [purchase-reserved-instances-offerings](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances-offerings.html) operation
 4. As purchase prices fluctuate, AWS places a limit on the purchase price. The purchase proceeds only if the total cost does not exceed your quote.
@@ -205,7 +206,7 @@ You register as a seller, list the Standard Reserved Instances that you want to 
 
 #### On-Demand Capacity Reservations
 
-Sometimes you might need a guarantee that AWS will always have more capacity for more On-Demand instances.
+Sometimes you might need a guarantee that AWS will always have more capacity for more On-Demand Instances.
 AWS doesn't provide that guarantee unless you buy an On-Demand Capacity Reservation, also called just a Capacity Reservation.
 
 You pay the equivalent On-Demand rate whether you use the On-Demand Capacity Reservation or not.
@@ -222,23 +223,33 @@ When you buy a Capacity Reservation, you must decide on:
 
 Unlike a Reserved Instance or [Savings Plan](https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html):
 * No term commitment is required for a Capacity Reservation
-* No discount is available for the matching On-Demand instances
+* No discount is available for the matching On-Demand Instances
 
 #### Spot
 
 A [Spot Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html) is an instance that uses spare EC2 capacity at a steep discount from the On-Demand price. You could get a discount of up to 90%.
 
-The catch is that EC2 might *interrupt* your Spot Instance with a two-minute warning. Interruption results in your Spot Instance either hibernating, stopping or terminating, depending on the choice you made during the purchase of the Spot Instance.
+The catch is that EC2 might [interrupt](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html) your Spot Instance with a two-minute warning. Interruption results in your Spot Instance either hibernating, stopping or terminating, depending on the choice you made during the purchase of the Spot Instance.
+
+Causes of interruption are:
+* Amazon EC2 needs more capacity
+* Amazon EC2 needs to perform host maintenance or hardware decommission
+* The* Spot price* (the current price of a Spot Instance per hour) is higher than your maximum price. It is optional to specify a maximum price
+* Your Spot request has a constraint such as a launch group or an AZ group, and the constraint can no longer be met.
 
 EC2 can send you an *EC2 Instance rebalance recommendation*, that is, a signal that your Spot Instance is at elevated risk of interruption. The signal gives you the chance to proactively rebalance your workload to new or existing Spot Instances that are not at an elevated risk of interruption. To use the signal, you need to enable the Capacity Rebalancing feature of Auto Scaling groups or Spot Fleet.
 
-#### How Spot Instances work
-
 How to launch a Spot Instance:
 * Method 1: Launch one manually using the EC2 console, run-instances AWS CLI command, API, SDK, CloudFormation, etc 
-* Method 2: Create an [EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html) that contains one or more Spot Instances
-* Method 3: Create a Spot Fleet request
-**TODO**
+* Method 2: Create an [EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html) that contains one or more Spot Instances. An EC2 Fleet is a set of instances that meet criteria that you specify, including:
+    * Number of On-Demand Instances
+    * Number of Spot Instances
+    * Types of instances
+    * Maximum amount per hour that you're willing to pay for your fleet
+    * Allocation strategy, e.g., `price-capacity-optimized`, `diversified`, `lowest-price`
+    * Type of request: `instant`, `request` or `maintain`. They specify whether your request is synchronous or asynchronous, and whether EC2 Fleet automatically replenishes interrupted Spot Instances.
+* Method 3 (*deprecated* as per [Best practices - Which is the best Spot request method to use](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use)): Create a [Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet.html) request. A Spot Fleet a set of Spot Instances and optionally On-Demand Instances. A Spot Fleet is similar to an EC2 Fleet but a key difference is that Spot Fleet lacks the `instant` synchronous request type. Only asynchronous request types are available, that is, `request` and `maintain`.
+* Method 4: Create an Auto Scaling group
 
 #### Savings Plan
 
