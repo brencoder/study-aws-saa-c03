@@ -228,8 +228,16 @@ Unlike a Reserved Instance or [Savings Plan](https://docs.aws.amazon.com/savings
 
 A [Spot Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html) is an instance that uses spare EC2 capacity at a steep discount from the On-Demand price. You could get a discount of up to 90%.
 
-The catch is that a Spot Instance might not be available immediately and EC2 might reclaim the capacity of your Spot Instance with a two-minute warning. Reclaiming results in your Spot Instance either hibernating, stopping or terminating, depending on the choice you made during the purchase of the Spot Instance.
+The catch is that EC2 might *interrupt* your Spot Instance with a two-minute warning. Interruption results in your Spot Instance either hibernating, stopping or terminating, depending on the choice you made during the purchase of the Spot Instance.
 
+EC2 can send you an *EC2 Instance rebalance recommendation*, that is, a signal that your Spot Instance is at elevated risk of interruption. The signal gives you the chance to proactively rebalance your workload to new or existing Spot Instances that are not at an elevated risk of interruption. To use the signal, you need to enable the Capacity Rebalancing feature of Auto Scaling groups or Spot Fleet.
+
+#### How Spot Instances work
+
+How to launch a Spot Instance:
+* Method 1: Launch one manually using the EC2 console, run-instances AWS CLI command, API, SDK, CloudFormation, etc 
+* Method 2: Create an [EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html) that contains one or more Spot Instances
+* Method 3: Create a Spot Fleet request
 **TODO**
 
 #### Savings Plan
@@ -250,4 +258,4 @@ Default limits for a particular account:
 Five VPCs per region.
 5000 SSH key pairs across your account.
 
-## AMIs
+### AMIs
