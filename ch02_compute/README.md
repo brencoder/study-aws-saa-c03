@@ -130,7 +130,9 @@ Pay per hour or per second, with a minimum spend of 60 seconds and no term commi
 
 #### Reserved
 
-If you plan to run an instance for over a year, you should consider buying a Reserved Instance to save money.
+If you plan to run an instance for over a year, you should consider buying a [Reserved Instance](https://aws.amazon.com/ec2/pricing/reserved-instances/) to save money.
+
+> **Note:** Savings Plans are a newer offering and provide identical discounts to Reserved Instances, but with more flexibility. You should consider Savings Plans in the first instance. See [What are Savings Plans](https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html) for more details.
 
 A Reserved Instance is not a type of instance but rather a billing discount on On-Demand Instances that match a certain *configuration* in return for committing to payment for a certain *term*, or amount of time.
 
@@ -153,6 +155,10 @@ To buy a Reserved Instance, you must commit to a term of either:
 * One year
 * Three years
 
+A Reserved Instance can apply to:
+* An Availability Zone, in which case you have a Zonal Reserved Instance.
+* A Region, in which case you have a Regional Reserved Instance.
+
 When the term of a Reserved Instance expires, you continue using its EC2 instance at on-demand rates until you terminate the instances or purchase new Reserved Instances that match the instance attributes.
 
 The discount offered by a Reserved Instance depends on not just the term but also your payment option:
@@ -160,12 +166,18 @@ The discount offered by a Reserved Instance depends on not just the term but als
 * Partial upfront
 * No upfront
 
-If your compute needs change, you might want to change your Reserved Instance or sell it. At purchase time, you should assess what types of changes you are likely to need, and then decide which [offering class](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/reserved-instances-types.html) to purchase, where the offering classes are as follows:
+If your compute needs change, you might want to change your Reserved Instance or sell it. At purchase time, you should assess what types of changes you are likely to need, and then decide which [offering class](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/reserved-instances-types.html) to purchase. That is:
+* Standard
+* Convertible
 
-|Offering class|Can modify|Can *exchange*|Can buy and sell in Reserved Instance Marketplace|Price|
+See [Standard and Convertible RI features](https://aws.amazon.com/ec2/pricing/reserved-instances/#riattributes) for a brief comparison of offering classes and the [Amazon EC2 User Guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/reserved-instances-types.html) for a detailed comparison.
+
+Key differences:
+
+|Offering class|Can modify|Can *exchange*|Can buy and sell in Reserved Instance Marketplace|Discount|
 |---|---|---|---|---|
-|Standard|Yes|No|Yes|$|
-|Convertible|Yes|Yes|No|$$$|
+|Standard|Yes|No|Yes|1yr (40%), 3yr (60%)|
+|Convertible|Yes|Yes|No|1yr (31%), 3yr (54%)|
 
 ##### Modifying a Reserved Instance
 [*Modifying*](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html) a Reserved Instance (Standard or Convertible) involves changing attributes like:
@@ -181,7 +193,7 @@ You can split your original Reserved Instances into two or more new Reserved Ins
 
 You can also merge two or more Reserved Instances into a single Reserved Instance.
 
-However, there are certain attributes you can't change through *modification*. They include instance family, operating system type and tenancy. However, if you had purchased a Convertible Reserved Instance, then you can change change those attributes through *exchange*.
+However, for a Standard Reserved Instance, there are certain attributes you can't change through *modification*. They include instance family, operating system type and tenancy. However, if you had purchased a Convertible Reserved Instance, then you could change those attributes through *exchange*.
 
 ##### Exchanging a Reserved Instance
 [*Exchanging*](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-convertible-exchange.html) is possible only for a Convertible Reserved Instance, and means replacing it with another Convertible Reserved Instance that has a different configuration, including instance family, platform, tenancy and scope.
@@ -204,10 +216,28 @@ On the other hand, Standard Reserved Instances cannot be exchanged but they can 
 ##### Selling a Standard Reserved Instance
 You register as a seller, list the Standard Reserved Instances that you want to sell and wait for AWS to automatically sell them to interested buyers.
 
+#### Savings Plan
+
+[Savings Plans](https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html)  provide up to 72% discount on your AWS compute workloads. Savings Plans come in three types:
+* **Compute Savings Plans** are the most flexible because they apply to EC2, Lambda and Fargate. Note:
+    * The EC2 instances could even be part of Amazon EMR, Amazon EKS or Amazon ECS. Compute Savings Plans offer up to 66% off On-Demand rates.
+    * For EC2, the discounts are irrespective of instance family (e.g., t2, m5, etc.), instance sizes, Region, OS or tenancy.
+    * For Lambda, the discounts are based on duration and provisioned concurrency charges, but are not based on the number of requests. See [AWS News Blog - Savings Plan Update: Save up to 17% On Your Lambda Workloads](https://aws.amazon.com/blogs/aws/savings-plan-update-save-up-to-17-on-your-lambda-workloads/) for more information.
+* **EC2 Instance Savings Plans** apply to a particular instance family in a chosen AWS region, but are irrespective of size (e.g., t2.large and t2.xlarge)
+* **SageMaker Savings Plans** offer up to a 64% discount on SageMaker instances, where SageMaker is used for machine learning
+
+Benefits:
+* Better than a Standard Reserved Instance in that you aren't locked in to a particular instance family (c2, t5, m4, etc.), tenancy (Dedicated, Dedicated Host, default), Region or platform (RHEL, Windows, etc.).
+* Better than a Convertible Reserved Instance in that you can change the Region, and you don't have to manually request an *exchange* to change the instance family, platform and tenancy.
+
+Drawbacks:
+* You can't sell a Savings Plan, whereas you could sell a Standard Reserved Instance.
+* You can't cancel a Savings Plan.
+
+
 #### On-Demand Capacity Reservations
 
-Sometimes you might need a guarantee that AWS will always have more capacity for more On-Demand Instances.
-AWS doesn't provide that guarantee unless you buy an On-Demand Capacity Reservation, also called just a Capacity Reservation.
+Sometimes you might need a guarantee that AWS will always have more capacity for more On-Demand Instances. AWS doesn't provide that guarantee unless you buy an [On-Demand Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html) (ODCR), also called just a *Capacity Reservation*, or a Zonal Reserved Instance.
 
 You pay the equivalent On-Demand rate whether you use the On-Demand Capacity Reservation or not.
 
@@ -217,13 +247,14 @@ You might need an On-Demand Capacity Reservation in these situations:
 * If you need to comply with certain regulations regarding high availability.
 
 When you buy a Capacity Reservation, you must decide on:
-* A certain AZ
+* A certain AZ. The Capacity Reservation applies to only the chosen Availability Zone, simliar to a Zonal Reserved Instance
 * Number of instances
 * Instance attributes, like instance type, OS and tenancy
 
 Unlike a Reserved Instance or [Savings Plan](https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html):
 * No term commitment is required for a Capacity Reservation
 * No discount is available for the matching On-Demand Instances
+
 
 #### Spot
 
@@ -250,10 +281,6 @@ How to launch a Spot Instance:
     * Type of request: `instant`, `request` or `maintain`. They specify whether your request is synchronous or asynchronous, and whether EC2 Fleet automatically replenishes interrupted Spot Instances.
 * Method 3 (*deprecated* as per [Best practices - Which is the best Spot request method to use](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use)): Create a [Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet.html) request. A Spot Fleet a set of Spot Instances and optionally On-Demand Instances. A Spot Fleet is similar to an EC2 Fleet but a key difference is that Spot Fleet lacks the `instant` synchronous request type. Only asynchronous request types are available, that is, `request` and `maintain`.
 * Method 4: Create an Auto Scaling group
-
-#### Savings Plan
-
-**TODO** [Savings Plan](https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html)
 
 ### Instance lifecycle
 
