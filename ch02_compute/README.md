@@ -234,6 +234,7 @@ Drawbacks:
 * You can't sell a Savings Plan, whereas you could sell a Standard Reserved Instance.
 * You can't cancel a Savings Plan.
 
+Jeff Barr's [AWS News Blog - New - Savings Plans for AWS Compute Services](https://aws.amazon.com/blogs/aws/new-savings-plans-for-aws-compute-services/) provides more details about Savings Plans.
 
 #### On-Demand Capacity Reservations
 
