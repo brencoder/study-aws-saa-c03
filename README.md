@@ -5,7 +5,7 @@ Brendon's notes and code for the AWS Certified Solutions Architect - Associate (
 ## Contents
 
 * [Chapter 1 - Introduction](ch01_intro/ch01_intro.md)
-* [Chapter 2 - Compute services](ch02 /ch02_compute.md)
+* [Chapter 2 - Compute services](ch02_compute/ch02_compute.md)
 * [Chapter 3 - Storage](ch03_storage/ch03_storage.md)
 * [Chapter 4 - VPCs](ch04_vpc/ch04_vpc.md)
 * [Chapter 6 - IAM](ch06_iam/ch06_iam.md)
