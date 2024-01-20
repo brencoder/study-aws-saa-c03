@@ -272,7 +272,7 @@ Causes of interruption are:
 EC2 can send you an *EC2 Instance rebalance recommendation*, that is, a signal that your Spot Instance is at elevated risk of interruption. The signal gives you the chance to proactively rebalance your workload to new or existing Spot Instances that are not at an elevated risk of interruption. To use the signal, you need to enable the Capacity Rebalancing feature of Auto Scaling groups or Spot Fleet.
 
 How to launch a Spot Instance:
-* Method 1: Launch one manually using the EC2 console, run-instances AWS CLI command, API, SDK, CloudFormation, etc 
+* Method 1: Launch one manually using the EC2 console, run-instances AWS CLI command, API, SDK, CloudFormation, etc
 * Method 2: Create an [EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html) that contains one or more Spot Instances. An EC2 Fleet is a set of instances that meet criteria that you specify, including:
     * Number of On-Demand Instances
     * Number of Spot Instances
@@ -313,4 +313,24 @@ Scaling "up" means making each instance more powerful.
 
 Scaling "out" means making more instances.
 
-To get even better value for money, design your system so that distinct processing tasks can scale independently. E.g., web servers can scale independently of application servers. 
+To get even better value for money, design your system so that distinct processing tasks can scale independently. E.g., web servers can scale independently of application servers.
+
+## Serverless compute
+
+### Lambda
+
+Good for event-driven computing. Every Lambda function runs only when "triggered" by an event source, such as another AWS service, a mobile application or an HTTP endpoint
+
+If triggers occur too frequently or take rather long to process, Lambda automatically scales up the compute capacity for you.
+
+Good for short-running function. Lambda has a limit of 15 minutes for processing a request
+
+You pay only for the compute time that you consume.
+
+### ECS
+
+### EKS
+
+### AWS Fargate
+
+Where AWS manages ECS or EKS for you.
