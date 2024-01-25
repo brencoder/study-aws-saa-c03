@@ -331,6 +331,8 @@ You pay only for the compute time that you consume.
 
 ### EKS
 
+TODO: Compare ECS and EKS
+
 ### AWS Fargate
 
 Where AWS manages ECS or EKS for you.

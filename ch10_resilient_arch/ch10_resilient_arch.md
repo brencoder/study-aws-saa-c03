@@ -30,9 +30,17 @@ However, an EC2 instance runs an AZ level
 
 Suppose the master copy of your data is in Tokyo but many of your customers are in India. To improve performance for your Indian customers, you can cache a copy of the master data closer to the customer. This approach is called a CDN. Amazon's CDN is called CloudFront. CloudFront uses [Edge locations](https://aws.amazon.com/cloudfront/features/?whats-new-cloudfront.sort-by=item.additionalFields.postDateTime&whats-new-cloudfront.sort-order=desc) to store cached content.
 
-## AWS Outputs
+## AWS Outposts
 
 A service for running AWS infrastructure, services and tools in your own on-premises data centres in a hybrid approach. It's where AWS runs a mini-region inside your own building.
+
+## AWS Local Zones
+
+TODO: AWS Local Zones
+
+## AWS Wavelength
+
+TODO: AWS Wavelength
 
 ## Messaging and queueing
 
@@ -49,5 +57,5 @@ SQS:
 
 SNS:
 * Uses "topics" in a publish-subscribe model.
-* You send or publish a message to a topic, and the message will "fan-out" to all subscribers or endpoints in a single go. It's like multi-cast. 
+* You send or publish a message to a topic, and the message will "fan-out" to all subscribers or endpoints in a single go. It's like multi-cast.
 * Subscribers could be SQS queues, Lambda functions, HTTPS web hooks or even users' mobile push (app notification), SMS and email.
