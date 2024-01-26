@@ -1,5 +1,31 @@
 # Chapter 1 - Intro to AWS
 
+## Benefits of AWS
+
+Six main benefits:
+* Trade fixed expense for variable expense. So, you can start small rather than making huge upfront hardware purchases
+* Benefit from massive economies of scale. So, you pay less due to AWS' bargaining power with hardware manufacturers, software developers, datacentre operators and so on
+* Stop guessing capacity. Start small and add or remove capacity quickly or even automatically. This saves you money
+* Increase speed and agility. Spin up test environments or applications for experimental new business ventures quickly, and delete the test environments or applications easily
+* Stop running datacentres yourself
+* Go global in minutes. E.g., to expand an Aussie business to Germany, you don't need to recruit a team in Germany. You just make a few API calls
+
+## Well-Architected Framework
+
+![The six pillars of the Well-Architected Framework](well_architected_framework_pillars.png)
+
+Well-Architected Framework consists of six pillars (OESRPECOS):
+* Operational excellence: Running and monitoring to deliver business values, and continually improving the supporting processes and procedures, e.g., through IaC, frequent small changes, automation and automated monitoring
+* Security
+* Reliability: Make sure your business applications keep running or at least recover quickly if some of the components that they run on fail; and scaling up to meet unexpected or large demands
+* Performance efficiency: Reduce unused compute, storage and network capacity; quickly change the capacity to meet business demand and to keep up with technological changes
+* Cost optimisation
+* Sustainability: Minimising energy consumption
+
+AWS provides the AWS Well-Architected Tool to assess your AWS account against the six pillars and provide recommendations.
+
+There is *no charge* for the AWS Well-Architected Tool.
+
 ## Interesting AWS services
 Directory Service:
 * Enables AWS resources to integrate with identity providers like Amazon Cognito and Microsoft AD domains
@@ -41,18 +67,31 @@ AWS Artifact:
 * Download compliance-related reports about AWS services, e.g., PCI DSS reports, ISO 27001 certifications
 * Accept agreements for multiple accounts in your organisation
 
-# Support plans
 
-Described [here](https://aws.amazon.com/premiumsupport/plans/). They are:
+## Migrating workloads to AWS
 
-* Basic: No tech support
-* Developer: Only the root account can submit cases, and tech support is provided only during business hours
-* Business: Root user and an unlimited number of IAM users can submit cases, with 24/7 phone, web and chat access
-* Enterprise On-Ramp
-* Enterprise
+### AWS Cloud Adoption Framework
 
+Has advice that is organised into six areas, called *Perspectives* (BPGPSO):
+* Business: Ensures that IT aligns with business needs, i.e., there is a strong business case for migrating to the cloud
+* People: Implements organisation-wide change management to ensure successful cloud migration and maintenance. Could involve hiring or retraining staff, and potentially also restructuring your organisation
+* Governance: Ensures that you maximise business value and minimise risks
+* Platform: Fit AWS into your organisation's IT architecture
+* Security: Implements security controls
+* Operations
 
-# Migrating workloads to AWS
+Where the Business, People and Governance pPerspectives focus on business capabilities, while the Platform, Security and Operations Perspectivies focus on technical capabilities. By considering each Perspective in turn, you identify gaps in your skills and processes. These gaps are called *inputs*. From the inputs, you create an AWS Clouad Adoption Framework *action plan*.
+
+### Six R's of migration
+
+* Rehost: Lift and shift
+* Replatform: Link, tinker and shift. i.e., make some cloud optimisations but don't change any core code. E.g., migrate on-prem MySQL to RDS
+* Retire
+* Retain: Keep on-prem
+* Repurchase: Go from on-prem to SaaS, e.g., something from AWS Marketplace. e.g., Go from on-prem CRM to Salesforce.com
+* Refactor/re-architect: Write new code that uses cloud-native features. Dramatic change to your architecture.
+
+### Migration services
 
 [AWS Migration Hub](https://aws.amazon.com/migration-hub/features/):
 * A single place to access all the tools and documentation that will help in migration to AWS.
@@ -65,21 +104,49 @@ Described [here](https://aws.amazon.com/premiumsupport/plans/). They are:
 
 [AWS Database Migration Service](https://aws.amazon.com/dms/features/)
 * Web service to migrate data from a DB that's on-prem, on an RDS DB instance or in a DB on an EC2 instance
-* Minimises downtime because all changes to the source DB that occur during migration are continuously replicated to the target DB. 
+* Minimises downtime because all changes to the source DB that occur during migration are continuously replicated to the target DB.
 
 [AWS Application Discovery Service](https://aws.amazon.com/application-discovery/features/):
 * Discover on-prem servers and DBs, collecting details like hostnames, IP addresses, CPU/network/memory/disk usage and DB engine identity/version/edition.
 * Identify dependencies between servers by recording inbound and outbound network activity.
 * Measure on-prem server performance (CPU, mem, disk, network) so you can establish a performance baseline to use as a comparison after you migrate to AWS.
 
-# AWS SLAs
+## AWS SLAs
 
 Published [here](https://aws.amazon.com/legal/service-level-agreements/).
 
 If AWS doesn't meet its SLA, it will give you some credit for a certain percentage of the direct costs that you incur whenever uptime falls below a defined threshold. For example, for EC2, the SLA agreement is [here](https://aws.amazon.com/compute/sla/?did=sla_card&trk=sla_card).
 
+## AWS support plans
 
-# Quiz
+Basic support is offered to all customers. It includes support for account and billing questions and service quota increases; pay-by-the-month technical support cases; forums; AWS Trusted Advisor's basic checks; and AWS Personal Health Dashboard
+
+Premium support plans are:
+* Developer support: Basic support, plus unlimited technical support cases; direct email access to customer support with 24 hour response time or 12 hours if your system is impaired; and building-block architecture support to advise you on combining AWS services together
+* Business support: Developer support, plus AWS Trusted Advisor's full set of checks; direct phone access to cloud support engineers with 4 hour response time if your production system is impaired and 1 hour response time if your production system is down; and infrastructure event management, where AWS offers a paid service to advise on architecture and scaling for a business event, e.g., product launch
+* Enterprise On-Ramp Support: Developer support, plus 30 minute response time for business critical workloads; and rate-limited access to a pool of TAMs
+* Enterprise: Developer, plus 15 minute response time for business critical workloads; a dedicated TAM
+
+More details are at:
+* [AWS Support Plans](https://docs.aws.amazon.com/awssupport/latest/user/aws-support-plans.html)
+* [Compare AWS Support Plans](https://aws.amazon.com/premiumsupport/plans/)
+
+TAM performs infrastructure event management, Well-Architected Framework reviews, operations reviews
+
+## Innovation with AWS
+
+Machine learning and AI:
+* Amazon SageMaker: Build, train and deploy ML models
+* Amazon Augmented AI (Amazon A2I): An ML platform
+* Amazon Lex: Ready-to-go chatbot
+* Amazon Textract: Extract text from scanned documents
+* Amazon Transcribe: Speech to text
+* Amazon Comprehend: Discover patterns in text
+* AWS DeepRacer: Let developers try reinforcement learning using 1/18 scale race car
+
+Satellites: AWS Ground Stations, which is pay-as-you-go access to a satellite
+
+## Quiz
 1. C :x: Should be B. To run your code on fully provisioned EC2 instances without having to manually configure and launch the necessary infrastructure, you should use AWS Elastic Beanstalk. It runs your code without you having to think about AWS compute and networking infrastructure. On the other hand, Amazon EC2 Auto Scaling requires you to have defined AMIs first.
 2. A :heavy_check_mark:
 3. D :heavy_check_mark:

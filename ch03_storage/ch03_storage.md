@@ -37,7 +37,7 @@ Key storage classes are:
 | --- | --- |
 | S3 Standard |  Default storage class. It has 11 nines of durability. That is, 99.999999999% probability that a file in S3 Standard will remain intact after one year. To achieve this, data is stored in at least three Availability Zones. |
 | S3 Standard-IA (Infrequent Access) | Suitable for data that must be kept for a long time, is not accessed frequently but needs to be available rapidly when required. Although you pay less for storing data in S3 Standard-IA, you must pay for reading the data. |
-| S3 Intelligent-Tiering | If you're unsure of how frequently accessed your data will be, or the rate of access could change over time, then S3 Intelligent-Tiering could be the most appropriate option |
+| S3 Intelligent-Tiering | If you're unsure of how frequently accessed your data will be, or the rate of access could change over time, then S3 Intelligent-Tiering could be the most appropriate option. It moves objects from S3 Standard after 30 days of inactivity to S3 Standard-IA, and moves objects back to Standard when they are accessed again. |
 | S3 Glacier Flexible Retrieval | Suitable for audit data. Can create an *archive* within a *vault*. Can even *lock* your vault. Can specify a *vault lock policy*, such as write once/read many (WORM). Options for retrieval range from minutes to hours |
 | S3 Glacier Deep Archive | Lowest cost storage but data retrieval could take between 12 to 48 hours. Data is stored in at least 3 AZs, so the data is highly available |
 
@@ -140,5 +140,13 @@ Niche DB use cases:
 * Amazon Quantum Ledger Database (QLDB): Provides 100% immutability for financial records or supply chain records
 
 Database accelerators (caches):
-* Amazon Elasticache: A caching layer on top of your DB to improve read times of common requests. Comes in two flavours, that is, memcached or redis
+* Amazon ElastiCache: A caching layer on top of your DB to improve read times of common requests. Comes in two flavours, that is, memcached or redis
 * Amazon DynamoDB Accelerator (DAX): A caching layer for DynamoDB. Improves response times from single-digit milliseconds to microseconds
+
+## AWS Snow Family
+
+It's for quickly moving huge amounts of data from on-premises environments to AWS. This is better done physically rather than over the network.
+
+* AWS Snowcone is a small, rugged edge computing and data transfer device that holds up to 14 TB. You copy the data to the physical device and send it back to AWS.
+* AWS Snowball Edge holds up to 80 TB. It plugs into your server rack. It's good for improving processing speed in disconnected, austere edge environments with little or no connectivity. Example use cases are capturing of streams from IoT devices, image compression or industrial signalling. Comes in two types: Storage Optimised and Compute Optimised.
+* AWS Snowmobile. It is used for transferring up to 100 PB of data. 45-ft shipping container, pulled by a truck. It plugs in to your datacentre and appears as a NAS to your servers. Has fire suppression, GPS tracking, 24/7 video surveillance and a security escort.
