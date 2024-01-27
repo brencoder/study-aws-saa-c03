@@ -71,3 +71,5 @@ SNS:
 * Uses "topics" in a publish-subscribe model.
 * You send or publish a message to a topic, and the message will "fan-out" to all subscribers or endpoints in a single go. It's like multi-cast.
 * Subscribers could be SQS queues, Lambda functions, HTTPS web hooks or even users' mobile push (app notification), SMS and email.
+
+## TODO EventBridge

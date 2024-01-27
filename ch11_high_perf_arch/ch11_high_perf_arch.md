@@ -12,6 +12,10 @@ Types:
 * Gateway Load Balancer
 * Classic Load Balancer
 
+## Elasticity
+
+TODO ## Elasticity
+
 ## Infrastructure automation
 
 ### AWS Elastic Beanstalk

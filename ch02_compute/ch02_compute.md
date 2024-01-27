@@ -354,7 +354,7 @@ Run Kubernetes on AWS without creating or managing your own control plane nodes 
 
 Where AWS runs a container in ECS for you. You just give Fargate a container image and specify things like OS, CPU and memory requirements, network settings and IAM policies. Fargate then creates the tasks, services and other ECS objects for you. Fargate scales ECS to meet your container's demands.
 
-### #Comparing ECS and EKS
+### Comparing ECS and EKS
 
 * ECS is simpler than EKS but provides less flexibility. See [AWS Blog: Amazon ECS vs Amazon EKS: making sense of AWS container services](https://aws.amazon.com/blogs/containers/amazon-ecs-vs-amazon-eks-making-sense-of-aws-container-services/)
 * With ECS you get an Amazon interface; with EKS you get a Kubernetes interface

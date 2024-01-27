@@ -8,13 +8,13 @@ Six main benefits:
 * Stop guessing capacity. Start small and add or remove capacity quickly or even automatically. This saves you money
 * Increase speed and agility. Spin up test environments or applications for experimental new business ventures quickly, and delete the test environments or applications easily
 * Stop running datacentres yourself
-* Go global in minutes. E.g., to expand an Aussie business to Germany, you don't need to recruit an IT team in Germany and rent a German datacentre. You just make a few API callsZA
+* Go global in minutes. E.g., to expand an Aussie business to Germany, you don't need to recruit an IT team in Germany and rent a German datacentre. You just make a few API calls
 
 ## Well-Architected Framework
 
 ![The six pillars of the Well-Architected Framework](well_architected_framework_pillars.png)
 
-Well-Architected Framework consists of six pillars (OESRPECOS):
+Well-Architected Framework consists of six pillars (OE-S-R-PE-CO-S):
 * Operational excellence: Running and monitoring to deliver business values, and continually improving the supporting processes and procedures, e.g., through IaC, frequent small changes, automation and automated monitoring
 * Security
 * Reliability: Make sure your business applications keep running or at least recover quickly if some of the components that they run on fail; and scaling up to meet unexpected or large demands
