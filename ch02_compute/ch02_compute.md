@@ -156,7 +156,7 @@ To buy a Reserved Instance, you must commit to a term of either:
 * Three years
 
 A Reserved Instance can apply to:
-* An Availability Zone, in which case you have a Zonal Reserved Instance.
+* An Availability Zone, in which case you have a Zonal Reserved Instance containing a capacity reservation.
 * A Region, in which case you have a Regional Reserved Instance.
 
 When the term of a Reserved Instance expires, you continue using its EC2 instance at on-demand rates until you terminate the instances or purchase new Reserved Instances that match the instance attributes.
@@ -216,14 +216,20 @@ On the other hand, Standard Reserved Instances cannot be exchanged but they can 
 ##### Selling a Standard Reserved Instance
 You register as a seller, list the Standard Reserved Instances that you want to sell and wait for AWS to automatically sell them to interested buyers.
 
+##### Reserved Instance behaviour in AWS Organizations
+
+"For billing purposes, the consolidated billing feature of AWS Organizations treats all the accounts in the organization as one account. This means that all accounts in the organization can receive the hourly cost benefit of Reserved Instances that are purchased by any other account."
+
 #### Savings Plan
 
-[Savings Plans](https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html)  provide up to 72% discount on your AWS compute workloads. Savings Plans come in three types:
-* **Compute Savings Plans** are the most flexible because they apply to EC2, Lambda and Fargate. Note:
-    * The EC2 instances could even be part of Amazon EMR, Amazon EKS or Amazon ECS. Compute Savings Plans offer up to 66% off On-Demand rates.
+[Savings Plans](https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html) provide up to 72% discount on your AWS compute workloads. You have to commit to paying a specific amount of compute power, measured in $/her, for a one or three-year period.
+
+Savings Plans come in three types:
+* **Compute Savings Plans** offer savings of up to 66% off On-Demand rates, just like Convertible RIs do. Compute Savings Plans are the most flexible because they apply to EC2, Lambda and Fargate. Note:
+    * The EC2 instances could even be part of Amazon EMR, Amazon EKS or Amazon ECS.
     * For EC2, the discounts are irrespective of instance family (e.g., t2, m5, etc.), instance sizes, Region, OS or tenancy.
     * For Lambda, the discounts are based on duration and provisioned concurrency charges, but are not based on the number of requests. See [AWS News Blog - Savings Plan Update: Save up to 17% On Your Lambda Workloads](https://aws.amazon.com/blogs/aws/savings-plan-update-save-up-to-17-on-your-lambda-workloads/) for more information.
-* **EC2 Instance Savings Plans** apply to a particular instance family in a chosen AWS region, but are irrespective of size (e.g., t2.large and t2.xlarge)
+* **EC2 Instance Savings Plans** offer savings of up to 72% off On-Demand rates, just like Standard RIs do. apply to a particular instance family in a chosen AWS region, but are irrespective of size (e.g., t2.large and t2.xlarge)
 * **SageMaker Savings Plans** offer up to a 64% discount on SageMaker instances, where SageMaker is used for machine learning
 
 Benefits:
@@ -233,12 +239,17 @@ Benefits:
 Drawbacks:
 * You can't sell a Savings Plan, whereas you could sell a Standard Reserved Instance.
 * You can't cancel a Savings Plan.
+* Savings Plans do not provide a capacity reservation. You can however reserve capacity with On Demand Capacity Reservations and pay lower prices on them with Savings Plans.
 
 Jeff Barr's [AWS News Blog - New - Savings Plans for AWS Compute Services](https://aws.amazon.com/blogs/aws/new-savings-plans-for-aws-compute-services/) provides more details about Savings Plans.
 
+Although zonal Reserved Instances provide capacity reservations, Savings Plans do not.
+
 #### On-Demand Capacity Reservations
 
-Sometimes you might need a guarantee that AWS will always have more capacity for more On-Demand Instances. AWS doesn't provide that guarantee unless you buy an [On-Demand Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html) (ODCR), also called just a *Capacity Reservation*, or a Zonal Reserved Instance.
+Sometimes you might need a guarantee that AWS will always have more capacity for more On-Demand Instances. AWS doesn't provide that guarantee unless you buy either:
+* An [On-Demand Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html) (ODCR), also called just a *Capacity Reservation*, or:
+* A zonal Reserved Instance.
 
 You pay the equivalent On-Demand rate whether you use the On-Demand Capacity Reservation or not.
 
@@ -329,10 +340,22 @@ You pay only for the compute time that you consume.
 
 ### ECS
 
+Fully managed container orchestration service
+
+### ECS Anywhere
+
+Run ECS on-premises
+
 ### EKS
 
-TODO: Compare ECS and EKS
+Run Kubernetes on AWS without creating or managing your own control plane nodes and worker nodes.
 
 ### AWS Fargate
 
-Where AWS manages ECS or EKS for you.
+Where AWS runs a container in ECS for you. You just give Fargate a container image and specify things like OS, CPU and memory requirements, network settings and IAM policies. Fargate then creates the tasks, services and other ECS objects for you. Fargate scales ECS to meet your container's demands.
+
+### #Comparing ECS and EKS
+
+* ECS is simpler than EKS but provides less flexibility. See [AWS Blog: Amazon ECS vs Amazon EKS: making sense of AWS container services](https://aws.amazon.com/blogs/containers/amazon-ecs-vs-amazon-eks-making-sense-of-aws-container-services/)
+* With ECS you get an Amazon interface; with EKS you get a Kubernetes interface
+* Both ECS and EKS can deploy to Fargate, EC2, AWS Outposts, AWS Local Zones or AWS Wavelength

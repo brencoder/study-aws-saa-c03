@@ -7,7 +7,19 @@ A record of *events*, where events are actions taken by users, roles and AWS ser
 There are three types of events:
 * Management events: Info about management operations performed on resources in your AWS account. E.g., attaching a policy to a role, creating a VPC, configuring a security group or deleting a bucket.
 * Data events: Info about resource operations performed on or in a resource. E.g., retrieving an object from S3, invoking a Lambda function or pushing to an SNS topic. Disabled by default. Costs extra.
-* CloudTrail Insights events: Info about anomalies that are automatically detected from other CloudTrail events. Disabled by default. Costs extra.
+* CloudTrail Insights events: Info about anomalies that are automatically detected from API activities in your account, e.g., more EC2 instances than usual were launched. Disabled by default. Costs extra.
+
+Events can relate to API activity or [non-API activity](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-non-api-events.html). Examples of non-API activity are:
+* AWS service events. That is, activities triggered by AWS services instead of by requests to public AWS APIs. E.g., AWS KMS automatically rotating a customer managed key
+* Sign-ins to AWS Management Console
+
+Events about an API activity are usually logged 15 minutes after the API call. Such events describe:
+* Who made the request
+* Which part of the world the request was made from
+* When the request was made
+* How the request was made, e.g., through CLI
+* What the request asked for
+* What the response was
 
 ## Amazon CloudWatch
 
@@ -29,3 +41,9 @@ A sample CloudWatch dashboard is below:
 ![Sample CloudWatch dashboard](sample_cloudwatch_dashboard.png)
 
 ## AWS Config
+
+TODO ## AWS Config
+
+## Amazon EventBridge
+
+TODO ## Amazon EventBridge

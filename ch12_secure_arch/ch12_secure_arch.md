@@ -2,11 +2,22 @@
 
 ## AWS Shared Responsibility Model
 
+TODO: Define who is responsible for what
+
+TODO: LIst shared responsibilities
+
 ## AWS Organizations
 Advantages:
 * Multi-account management
 * Consolidated billing
 * Centralised policies (SCPs, tagging policies)
+
+In detail:
+* Create AWS accounts programmatically
+* Centrally manage multiple AWS accounts programmatically
+* Centrally audit, monitor and secure all your accounts. E.g., use the management account's GuardDuty or CloudTrail to alert on and monitor events across all your accounts.
+* Channel billing through a single payer
+* Define security guardrails across all accounts
 
 ## Compliance
 
@@ -30,6 +41,10 @@ AWS Shield Standard is enabled by default at no additional charge. To get the mo
 
 AWS Shield Advanced is a paid service. It extends AWS Shield Standard and protects other AWS services, like ELB, resources associated with EIPs.
 
+## AWS WAF
+
+TODO ## AWS WAF
+
 ## Encryption
 
 At-rest:
@@ -38,7 +53,7 @@ At-rest:
 In-transit:
 * SSL/TLS. Possible with SQS, RDS, S3, RedShift and many more AWS services
 
-## Amazon  Inspector
+## Amazon Inspector
 Performs network assessments and host assessments so you can identify and remediate vulnerabilities
 
 ## Amazon GuardDuty
@@ -48,4 +63,25 @@ You can configure AWS Lambda functions to run in response to security findings. 
 
 ## AWS Security Hub
 
-Collects security data across AWS accounts, AWS services and even supported third-party products analyse your security trends, identify the highest priority security issues and even integrate with Amazon EvetnBridge to automatically remediate findings.
+TODO: Try Security Hub out
+
+Collects security data across AWS accounts, AWS services and even supported third-party products analyse your security trends, identify the highest priority security issues and even integrate with Amazon EventBridge to automatically remediate findings.
+
+## AWS Audit Manager
+
+TODO AWS Audit Manager
+
+## AWS Config
+
+TODO AWS Config
+
+## Credential storage
+
+TODO AWS Secrets Manager
+TODO AWS Systems Manager for credential storage
+
+## Security info from AWS
+
+TODO: AWS knowlege center
+TODO: AWS Security Center
+TODO: AWS Security Blog

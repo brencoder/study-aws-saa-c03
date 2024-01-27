@@ -18,6 +18,9 @@ Examples:
 * AWS ELB charges you based on how long your ELB has been used, how many connections it processed and how much data it transferred
 * AWS S3 charges you based on how much data you store; what tier you store it at; how many requests you made to add, copy or retrieve your S3 objects; how much data you transferred into or out of S3; and what management features you enabled, e.g., object tagging
 
+## Data transfer charges
+TODO ## Data transfer charges
+
 ## Billing dashboard
 
 ## Consolidated billing
@@ -28,9 +31,25 @@ Done through AWS Organizations. Apart from centrally viewing and paying bills, c
 
 ## AWS Budgets
 
+TODO ## AWS Budgets
+
 Receive email alerts when your costs exceed or are forecast to exceed your budgeted amounts or, say, 80% of your budgeted amounts.
 
 The information in AWS Budgets is updated three times a day, not in real-time.
+
+## AWS Pricing Calculator
+
+TODO ## AWS Pricing Calculator. What are its use cases and capabilities?
+
+## Cost allocation tags
+
+TODO ## Cost allocation tags
+
+TODO Relationship between cost allocation tags and billing reports (e.g., AWS Cost and Usage Report)
+
+## AWS Billing Conductor
+
+TODO ## AWS Billing Conductor
 
 ## AWS Cost Explorer
 
@@ -39,18 +58,6 @@ Breaks down your costs by AWS service. Can further break it down by region, acco
 Lets you create custom reports.
 
 AWS Cost Explorer charges you based on the number of requests you make to it; and whether you want hourly granularity for the past 14 days of usage.
-
-## Well-Architected Framework
-
-![The six pillars of the Well-Architected Framework](well_architected_framework_pillars.png)
-
-Well-Architected Framework consists of six pillars (OESRPECOS):
-* Operational excellence: Running and monitoring to deliver business values, e.g., through automation and automated monitoring
-* Security
-* Reliability: Make sure your business applications keep running or at least recover quickly if some of the components that they run on fail.
-* Performance efficiency
-* Cost optimisation
-* Sustainability: Minimising energy consumption
 
 
 ## AWS Marketplace
@@ -61,9 +68,13 @@ A private marketplace is even available.
 
 AWS Marketplace can even integrate into your organisation's procurement systems through the Commerce XML (cXML) protocol.
 
+TODO Key services of AWS Marketplace, incl. cost mgt, governance and entitlement
+
 ## AWS Trusted Advisor
 
-Evaluates your AWS account against five pillars: (CPSFL)
+TODO ## AWS Trusted Advisor
+
+Evaluates your AWS account against five pillars: (COPSFTSL)
 * Cost optimisation: E.g., buy AWS savings plans; turn off or vertically downscale EC2 instances; and vertically downscale EBS volumes
 * Performance: E.g., High-throughput EBS volumes are attached to low-throughput EC2 instances
 * Security: E.g., S3 buckets have open permissions; MFA not enabled for root user; security groups are too permissive; IAM access keys should be rotated
@@ -73,3 +84,10 @@ Evaluates your AWS account against five pillars: (CPSFL)
 Some checks are free; others are only available if you have premium support plans.
 
 AWS Trusted Advisor can send emails to your account's alternate contacts for billing, operations and security.
+
+## AWS Health Dashboard
+TODO ## AWS Health Dashboard
+
+## AWS Health API
+TODO ## AWS Health API
+

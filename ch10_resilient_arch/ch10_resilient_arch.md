@@ -28,7 +28,19 @@ However, an EC2 instance runs an AZ level
 
 ## Edge locations
 
+TODO ## Edge locations
+
+TODO ## Benefits of edge locations, incl. AWS Global Accelerator
+
 Suppose the master copy of your data is in Tokyo but many of your customers are in India. To improve performance for your Indian customers, you can cache a copy of the master data closer to the customer. This approach is called a CDN. Amazon's CDN is called CloudFront. CloudFront uses [Edge locations](https://aws.amazon.com/cloudfront/features/?whats-new-cloudfront.sort-by=item.additionalFields.postDateTime&whats-new-cloudfront.sort-order=desc) to store cached content.
+
+## AWS Wavelength Zones
+
+TODO ## AWS Wavelength Zones
+
+## AWS Local Zones
+
+TODO ## AWS Local Zones
 
 ## AWS Outposts
 

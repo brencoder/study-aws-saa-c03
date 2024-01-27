@@ -24,36 +24,38 @@ When you modify a file in block storage, only the pieces that are changed are up
 
 Maximum file size is 5 TB, although the Amazon S3 console allows a maximum file size of only 160 GB. To upload files that are greater than 160 GB but less than or equal to 5 TB, use the AWS CLI, AWS SDKs or Amazon S3 REST API.
 
-S3 has different tiers of storage, called *storage classes*, with details [here](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html). To choose the right storage class, consider two things:
-* How available you need your data to be. That is, how well could you deal with the data being lost or corrupted?
-* How frequently you need to access your data:
-** Hot (frequently accessed)
-** Warm (sometimes accessed)
-** Cold (very infrequently accessed, e.g., once a year)
+S3 has different tiers of storage, called *storage classes*, with details [here](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html). To choose the right storage class, consider:
+* Resiliency: How well you could deal with the data being lost or corrupted?
+* Retrieval time: How quickly do you want AWS to send the object to you upon request?
+* How frequently you need to access your data
+* Cost for storage and retrieval
 
-Key storage classes are:
+Storage classes are:
 
 | Storage Class | Description |
 | --- | --- |
 | S3 Standard |  Default storage class. It has 11 nines of durability. That is, 99.999999999% probability that a file in S3 Standard will remain intact after one year. To achieve this, data is stored in at least three Availability Zones. |
+| S3 Express One Zone | Fastest retrieval time. It's based on S3 Standard, but stores your data in only one AZ. As a result, you can read the data up to 10x faster than you could with S3 Standard (hence *Express*) and you save around 50% compared with S3 Standard because you sacrifice the availability of your data |
 | S3 Standard-IA (Infrequent Access) | Suitable for data that must be kept for a long time, is not accessed frequently but needs to be available rapidly when required. Although you pay less for storing data in S3 Standard-IA, you must pay for reading the data. |
-| S3 Intelligent-Tiering | If you're unsure of how frequently accessed your data will be, or the rate of access could change over time, then S3 Intelligent-Tiering could be the most appropriate option. It moves objects from S3 Standard after 30 days of inactivity to S3 Standard-IA, and moves objects back to Standard when they are accessed again. |
-| S3 Glacier Flexible Retrieval | Suitable for audit data. Can create an *archive* within a *vault*. Can even *lock* your vault. Can specify a *vault lock policy*, such as write once/read many (WORM). Options for retrieval range from minutes to hours |
-| S3 Glacier Deep Archive | Lowest cost storage but data retrieval could take between 12 to 48 hours. Data is stored in at least 3 AZs, so the data is highly available |
-
-Other storage classes are:
-| Storage Class | Description |
-| --- | --- |
-| S3 Express One Zone | Like S3 Standard, but stores your data in only one AZ. As a result, you can read the data up to 10x faster than you could with S3 Standard (hence *Express*) and you save around 50% compared with S3 Standard because you sacrifice the availability of your data |
 | S3 One Zone-IA | Like S3 Standard-IA, where you pay to access your data, but you store your data in a single AZ only to get a discount |
+| S3 Intelligent-Tiering | If you're unsure of how frequently accessed your data will be, or the rate of access could change over time, then S3 Intelligent-Tiering could be the most appropriate option. How itIt moves objects from S3 Standard after a default of 30 days of inactivity to S3 Standard-IA, and moves objects back to Standard when they are accessed again. If you enable the Archive Access tier, then if the item hasn't been accessed for a default of 90 days, it is moved to the S3 Glacier storage class. |
+| S3 Glacier Flexible Retrieval (formerly S3 Glacier) | Suitable for audit data, or other data that is rarely accessed and does not require immediate access. Can create an *archive* within a *vault*. Can even *lock* your vault. Can specify a *vault lock policy*, such as write once/read many (WORM). Options for retrieval range from minutes to hours |
 | S3 Glacier Instant Retrieval | Like S3 Glacier Flexible Retrieval but more expensive because you are guaranteed millisecond access to your data |
+| S3 Glacier Deep Archive | Lowest cost storage but data retrieval could take between 12 to 48 hours. Data is stored in at least 3 AZs, so the data is highly available |
 | S3 Outposts | Stores objects in your on-premises AWS Outposts environment. Good if you have strict local data residency requirements or need extremely high performance |
+
 
 If in doubt, choose S3 Standard or S3 Intelligent-Tiering as your storage class.
 
-You can also use an *S3 lifecycle policy* to automatically move data between storage classes according to a schedule that you define. For example, you could keep data in S3 Standard at first, then move it to S3 Standard-IA after three months, and then S3 Glacier Flexible Retrival after one year.
-
 Although an S3 bucket belongs to only one region, an S3 bucket's name must be globally unique across all regions.
+
+You can also use an *S3 Lifecycle policy* to automatically move a bucket between storage classes according to a schedule that you define. For example, you could keep data in S3 Standard at first, then move it to S3 Standard-IA after three months, and then S3 Glacier Flexible Retrival after one year.
+
+## Other types of lifecycle policy, apart from S3
+
+* Bucket lifecycle policy
+* EBS snapshot lifecycle policies, manged through [Amazon Data Lifecycle Manager](https://docs.aws.amazon.com/* AWSEC2/latest/UserGuide/snapshot-lifecycle.html)
+* ECR lifecycle policy
 
 ## EFS
 
@@ -63,85 +65,29 @@ Advantages over EBS:
 * Automatically scales in size whereas resizing an EBS volume is a manual task.
 * On-premises servers can access Amazon EFS using AWS Direct Connect.
 
-## RDS
+## Amazon FSx
 
-Without RDS, you could migrate your on-premises DB to AWS EC2, perhaps with the help of Amazon Database Migration Service.
+A fully-managed, high-performance, third-party file system like NetApp ONTAP or Windows File Server.
 
-On the other hand, with RDS, you get benefits such as AWS-managed patching, backups, redundancy, failover and disaster recovery.
+## AWS Storage Gateway
 
-An even more AWS-managed subtype of RDS is Amazon Aurora. It comes in two flavours - MySQL and PostgreSQL - and has 1/10th the cost of commercial databases. Benefits over normal RDS:
-* High availability, with data replicated across facilities, with six copies at any time
-* You can also deploy up to 15 read replicas to scale performance
-* Continuous backup to Amazon S3
-* Point-in-time recovery
+Connect on-prem software appliances with AWS storage.
 
-## DynamoDB
+Four types:
+* Amazon S3 File Gateway, for connecting your on-prem app to S3 via NFS or SMB
+* Amazon FSx File Gateway, for connecting your on-prem app to Amazon FSx for Windows File Server via SMB
+* Tape Gateway, for storing archive backup data in S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive
+* Volume Gateway, for your on-prem app to mount an S3 bucket as an iSCSI volume
 
-Serverless database.
+## AWS Backup
 
-You create a table. The table consists of items. An item is a set of attributes, where an attribute is also called a key-value pair.
+Back up EC2 instances, S3 data, EBS volumes, DynamoDB tables, CloudFormation stacks and many other AWS resources.
 
-DynamoDB is usually a Region level service, across AZs.
-
-However, you can also use the *DynamoDB global tables* feature to create a fully managed, serverless and multi-Region DB. It is also *multi-active*
-
-Millisecond response time.
-
-Not relational. Doesn't support SQL. No schema.
-
-If data doesn't have a strict format and is being accessed extremely frequently, a NoSQL database is a better fit than a relational DB.
-
-DynamoDB can handle over a trillion requests per day, or over 45 million requests per second.
-
-Downside is that you can't query based on all attributes, but only based on certain key attributes. With NoSQL, your queries relate to one table, and do not do joins.
-
-Which DB to choose - RDS or DynamoDB?
-* If you must do complex joins, then use a relational database. For example, business analytics applications commonly need this.
-* If you do not need to do complex joins but need massive scalability and fast reads and writes, then use a NoSQL database. For example, if you are just storing customer information and only have simple queries of the customer data, then a NoSQL database would be better.
-
-## Redshift
-
-Suitable for doing historical analytics over huge volumes of a huge variety of data. In other words, if you need a data warehouse for big data. Redshift is data warehousing as a service. It can run queries against exabytes of data.
-
-## Database Migration Service
-
-With DMS, the source DB remains fully operational during the migration.
-
-Also, your source and destination DBs can be of different types.
-
-If the source and destination DBs are of the same type, that is called a *homogenous* migration.
-
-The source DB could be located:
-* On-premises
-* In EC2
-* In RDS
-
-The destination DB could be located:
-* In EC2
-* In RDS
-
-On the other hand, for a *heterogeneous* migration, you must:
-1. Convert the schema and code of the source DB to those of the dest DB
-2. Migrate data from the converted source DB to the dest DB
-
-Other use cases of DMS:
-* Dev and test DB migrations. i.e., Create a copy of the prod DB for dev or testing purposes
-* DB consolidation. i.e., Merging multiple DBs into one
-* Continuous DB replication
-
-You pay for DMS based on the capacity that you use on a per-hour basis.
-
-## Additional database services
-
-Niche DB use cases:
-* Amazon DocumentDB: Content management system, like a catalogue or set of user profiles. Stores, queries and indexes JSON data natively. Based on MongoDB
-* Amazon Neptune: A graph database, suitable for social networks, recommendation engines and fraud detection
-* Amazon Managed Blockchain: Highly decentralised ledger system that lets multiple parties run transactions and share data without a central authority
-* Amazon Quantum Ledger Database (QLDB): Provides 100% immutability for financial records or supply chain records
-
-Database accelerators (caches):
-* Amazon ElastiCache: A caching layer on top of your DB to improve read times of common requests. Comes in two flavours, that is, memcached or redis
-* Amazon DynamoDB Accelerator (DAX): A caching layer for DynamoDB. Improves response times from single-digit milliseconds to microseconds
+Features:
+* Cross-region
+* Cross-account
+* Incrememental backups
+* Restore testing
 
 ## AWS Snow Family
 
