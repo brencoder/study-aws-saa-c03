@@ -2,9 +2,16 @@
 
 ## AWS Shared Responsibility Model
 
-TODO: Define who is responsible for what
+AWS is fully responsible for:
+* Hardware, software, networking and facilities that run AWS Cloud services
+* Physical security of its data centres
 
-TODO: LIst shared responsibilities
+AWS and customer "share" responsibility for:
+* Patch mgmt - AWS patches its infrastructure; customer patches its guest OSes and apps
+* Config mgmt - AWS for its infrastructure; customer for its guest OSes, DBs, apps and its settings for AWS settings
+* Training - AWS trains its employees; customer trains its own employees
+
+Customer is totally responsible for their applications
 
 ## AWS Organizations
 Advantages:
@@ -43,7 +50,19 @@ AWS Shield Advanced is a paid service. It extends AWS Shield Standard and protec
 
 ## AWS WAF
 
-TODO ## AWS WAF
+A web application firewall that monitors for suspicious web requests via HTTP and HTTPS to several AWS resources, mainly:
+* CloudFront distribution
+* API Gateway REST API
+* ALB
+* AppSync GraphQL API
+
+If suspicious web requests are detected, AWS WAF can allow, block or count them
+
+Types of suspicious web requests detected are:
+* Suspicious source address
+* SQLi
+* XSS
+* Custom patterns
 
 ## Encryption
 
@@ -63,28 +82,44 @@ You can configure AWS Lambda functions to run in response to security findings. 
 
 ## AWS Security Hub
 
-TODO: Try Security Hub out
-
 Collects security data across AWS accounts, AWS services and even supported third-party products analyse your security trends, identify the highest priority security issues and even integrate with Amazon EventBridge to automatically remediate findings.
+
+Uses input from GuardDuty, Inspector, Systems Manager, AWS Config, some other AWS services and even some AWS Partner Network services, e.g., Aqua Security.
+
+Can display a dashboard of compliance with security standards:
+![Dashboard of compliance with security standards](security_hub_security_standards.png)
+
+Security standards consist of *security controls*, and AWS Security Hub can also show details of compliance with a particular security control.
+
+AWS Security Hub produces *findings* about which resources of which accounts are not compliant with each security control, and provides links to remediation instructions. See below:
+![A control in Security Hub](security_hub_control.png)
+
+AWS Security Hub is cross-region.
+
+It can even act on the findings through custom actions, like notifying CloudWatch Events, an EventBridge event bus (which in turn can have multiple targets), another AWS service or an EventBridge API destination (SaaS partner). The notified systems can in turn perform remediation.
 
 ## AWS Audit Manager
 
-TODO AWS Audit Manager
-
-## AWS Config
-
-TODO AWS Config
+AWS Audit Manager continuously checks your AWS resources for compliance with prebuilt frameworks, like GDPR or HIPAA, or custom frameworks.
 
 ## Credential storage
 
-TODO AWS Secrets Manager
-TODO AWS Systems Manager for credential storage
+AWS recommends different services for different types of credentials
+* For DB credentials, API keys or OAuth tokens: AWS Secrets Manager
+* For IAM credentials: AWS IAM
+* For encryption keys: AWS KMS
+* For SSH keys: Amazon EC2 Instance Connect
+* For private keys and certs: AWS Certificate Manager
+
+A deprecated way of storing credentials in AWS is by using AWS Systems Manager Parameter Store together with AWS KMS as per [this blog](https://aws.amazon.com/blogs/mt/the-right-way-to-store-secrets-using-parameter-store/).
 
 ## Security info from AWS
 
-TODO: AWS knowlege center
-TODO: AWS Security Center
-TODO: AWS Security Blog
+AWS Security Center doesn't exist anymore.
+
+However, [AWS Security Documentation](https://docs.aws.amazon.com/security/) is a page with links to best practices, the Shared Responsibility Model, AWS Security Blog, security documentation per AWS service, and other AWS security resources (whitepapers, tutorials, training and so on).
+
+[AWS Security Blog](https://aws.amazon.com/blogs/security/) is a list of security-related posts from [AWS Blog](https://aws.amazon.com/blogs)
 
 ## TODO AWS Certificate Manager
 
