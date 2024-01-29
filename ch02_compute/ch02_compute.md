@@ -359,3 +359,11 @@ Where AWS runs a container in ECS for you. You just give Fargate a container ima
 * ECS is simpler than EKS but provides less flexibility. See [AWS Blog: Amazon ECS vs Amazon EKS: making sense of AWS container services](https://aws.amazon.com/blogs/containers/amazon-ecs-vs-amazon-eks-making-sense-of-aws-container-services/)
 * With ECS you get an Amazon interface; with EKS you get a Kubernetes interface
 * Both ECS and EKS can deploy to Fargate, EC2, AWS Outposts, AWS Local Zones or AWS Wavelength
+
+## AWS Batch
+
+## AWS Elastic Beanstalk
+
+## Amazon Lightsail
+
+## AWS Compute Optimizer

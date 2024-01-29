@@ -42,8 +42,8 @@ A sample CloudWatch dashboard is below:
 
 ## AWS Config
 
-TODO ## AWS Config
-
-## Amazon EventBridge
-
-TODO ## Amazon EventBridge
+It's a CMDB of the AWS resources in your AWS accounts, with the following extra features:
+* Review changes in configs of, and relationships between, AWS resources
+* Check that AWS resources have desired settings
+* View resource config history
+* Query data from multiple accounts of multiple regions via [aggregators](https://docs.aws.amazon.com/config/latest/developerguide/aggregate-data.html)

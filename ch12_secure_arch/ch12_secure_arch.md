@@ -85,3 +85,15 @@ TODO AWS Systems Manager for credential storage
 TODO: AWS knowlege center
 TODO: AWS Security Center
 TODO: AWS Security Blog
+
+## TODO AWS Certificate Manager
+
+## TODO AWS CloudHSM
+
+## TODO AWS Directory Service
+
+## TODO Amazon Detective
+
+## TODO Amazon Macie
+
+## TODO AWS Resource Access Manager (AWS RAM)

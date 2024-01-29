@@ -91,3 +91,8 @@ TODO ## AWS Health Dashboard
 ## AWS Health API
 TODO ## AWS Health API
 
+## TODO AWS Launch Wizard
+
+## TODO AWS License Manager
+
+## TODO AWS Resource Groups and Tag Editor

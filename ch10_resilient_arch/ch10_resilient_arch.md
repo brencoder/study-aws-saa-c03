@@ -28,31 +28,27 @@ However, an EC2 instance runs an AZ level
 
 ## Edge locations
 
-TODO ## Edge locations
+To provide high performance for some AWS services, AWS runs extra data centres in addition to those in AZs. Those extra data centres are called *edge locations*. CloudFront and Route 53 use edge locations.
 
-TODO ## Benefits of edge locations, incl. AWS Global Accelerator
-
-Suppose the master copy of your data is in Tokyo but many of your customers are in India. To improve performance for your Indian customers, you can cache a copy of the master data closer to the customer. This approach is called a CDN. Amazon's CDN is called CloudFront. CloudFront uses [Edge locations](https://aws.amazon.com/cloudfront/features/?whats-new-cloudfront.sort-by=item.additionalFields.postDateTime&whats-new-cloudfront.sort-order=desc) to store cached content.
-
-## AWS Wavelength Zones
-
-TODO ## AWS Wavelength Zones
+To understand why CloudFront uses edge locations, imaging that the master copy of your data is in Tokyo but many of your customers are in India. To improve performance for your Indian customers, you can cache a copy of the master data closer to the customer. This approach is called a CDN. Amazon's CDN is called CloudFront. CloudFront uses [Edge locations](https://aws.amazon.com/cloudfront/features/?whats-new-cloudfront.sort-by=item.additionalFields.postDateTime&whats-new-cloudfront.sort-order=desc) to store cached content.
 
 ## AWS Local Zones
 
-TODO ## AWS Local Zones
+Where AWS provides a subset of its services in extra AWS-run data centres, outside of AZs, so that users have lower latency to your applications or so that you meet data sovereignty requirements (e.g., where a state government's data must remain in the same state). You can access the other services of the same Region.
+
+Note that edge locations are for making AWS' own services faster whereas Local Zones are for making your applications faster.
+
+## AWS Global Accelerator
+
+A network layer load-balancing service that directs traffic to optimal endpoints across Regions. Endpoints could be NLBs, ALBs or EC2 instances. Users access AWS Global Accelerator through a pair of *static* IP addresses. The routing of requests does not rely on changes in DNS records, in contrast to dynamic DNS load balancing solutions like Amazon Route 53 Traffic Flow.
+
+## AWS Wavelength Zones
+
+Where a communications service provider runs AWS compute and storage services in their 5G networks to enable applications that require ultra-low latency connections to consumers and also connectivity to AWS services. Use cases include connected vehicles or video platforms.
 
 ## AWS Outposts
 
 A service for running AWS infrastructure, services and tools in your own on-premises data centres in a hybrid approach. It's where AWS runs a mini-region inside your own building.
-
-## AWS Local Zones
-
-TODO: AWS Local Zones
-
-## AWS Wavelength
-
-TODO: AWS Wavelength
 
 ## Messaging and queueing
 
@@ -72,4 +68,12 @@ SNS:
 * You send or publish a message to a topic, and the message will "fan-out" to all subscribers or endpoints in a single go. It's like multi-cast.
 * Subscribers could be SQS queues, Lambda functions, HTTPS web hooks or even users' mobile push (app notification), SMS and email.
 
-## TODO EventBridge
+## Amazon EventBridge
+
+Routes events between your application components.
+
+Events can be produced by your apps, microservices, SaaS apps and AWS services.
+
+Events can be consumed by multiple targets via *event buses* or single targets via *pipes*.
+
+Targets can be AWS Lambda functions, Amazon SNS topics, other AWS service targets, or an API

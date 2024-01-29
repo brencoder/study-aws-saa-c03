@@ -14,7 +14,7 @@ Types:
 
 ## Elasticity
 
-TODO ## Elasticity
+Refers to the ability to automatically increase or decrease resources to meet demand.
 
 ## Infrastructure automation
 

@@ -6,13 +6,17 @@ Without RDS, you could migrate your on-premises DB to AWS EC2, perhaps with the 
 
 On the other hand, with RDS, you get benefits such as AWS-managed patching, backups, redundancy, failover and disaster recovery.
 
-TODO Aurora
+## Amazon Aurora
 
-An even more AWS-managed subtype of RDS is Amazon Aurora. It comes in two flavours - MySQL and PostgreSQL - and has 1/10th the cost of commercial databases. Benefits over normal RDS:
+A fully managed subtype of RDS. Benefits over normal RDS:
 * High availability, with data replicated across facilities, with six copies at any time
-* You can also deploy up to 15 read replicas to scale performance
+* High performance, with up to 15 low-latency read replicasperformance
 * Continuous backup to Amazon S3
 * Point-in-time recovery
+
+It comes in two flavours: MySQL and PostgreSQL.
+
+It costs as little as 1/10th of the price of commercial databases.
 
 ## DynamoDB
 
@@ -72,16 +76,38 @@ You pay for DMS based on the capacity that you use on a per-hour basis.
 
 ## AWS Schema Conversion Tool
 
-TODO ## AWS Schema Conversion Tool
+This is software that you install and run to convert source database schemas to a form suitable for migration to Amazon.
+
+Source database types include:
+* IBM Db2
+* Microsoft Azure SQL Database
+* Microsoft SQL Server
+* MySQL
+* Oracle
+* Teradata
+* Apache Cassandra
+
+Target database types include:
+* RDS
+* Amazon Aurora DB cluster
+* Amazon Redshift clsuter
+* EC2-hosted DB
+* S3 bucket
+* DynamoDB
+* AWS Glue
+* AWS Step Functions
 
 ## Additional database services
 
 Niche DB use cases:
 * Amazon DocumentDB: Content management system, like a catalogue or set of user profiles. Stores, queries and indexes JSON data natively. Based on MongoDB
-* Amazon Neptune: A graph database, suitable for social networks, recommendation engines and fraud detection
+* Amazon Neptune: A graph database, suitable for social networks, recommendation engines and fraud detection. Example use case: finding airports that have flights to or from Anchorage Airport:
+![Using Amazon Neptune to find airports that have flights to or from Anchorage Airport](amazon_neptune_finding_airports.png)
 * Amazon Managed Blockchain: Highly decentralised ledger system that lets multiple parties run transactions and share data without a central authority
 * Amazon Quantum Ledger Database (QLDB): Provides 100% immutability for financial records or supply chain records
+* Amazon MemoryDB for Redis: Where you need a fully managed, extremely low latency, high request rate (100 million/s),high throughput (GB/s) and huge DB with a Redis API and no data loss. Use cases: session management, retail inventory tracking, gaming player profiles, payment processing and IoT streaming data. Redis can be thought of as a "data structure server", with support for strings, hashes, lists, sets, sorted sets, streams, and more.
 
 Database accelerators (caches):
 * Amazon ElastiCache: A caching layer on top of your DB to improve read times of common requests. Comes in two flavours, that is, memcached or redis
 * Amazon DynamoDB Accelerator (DAX): A caching layer for DynamoDB. Improves response times from single-digit milliseconds to microseconds
+

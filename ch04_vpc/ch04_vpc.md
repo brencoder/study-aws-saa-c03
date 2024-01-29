@@ -36,6 +36,46 @@ Like an internet gateway, but allows and denies connections from a corporate net
 
 A dedicated, independent, physical connection between an on-premises data centre and a VPC.
 
+## Amazon API Gateway
+
+Fully managed service that enables you to create, publish, maintain, monitor and secure RESTful APIs and WebSocket APIs.
+
+Handles traffic management, authorisation, access control, throttling, monitoring and API version management
+
+Amazon API Gateway sends the API requests to a compute platform of your choice, e.g., AWS Lambda, Amazon EC2, Amazon Kinesis, other AWS services, applications in your VPC and applications on-premises.
+
+Pricing for HTTPS and REST APIs is based on the number of API calls received and amount of data transferred out.
+
+Pricing for WebSocket APIs is based on the duration of connections between clients, and how many messages are sent between clients.
+
+For more info:
+* [Amazon API Gateway Overview](https://aws.amazon.com/api-gateway/)
+* [Amazon API Gateway Resources](https://aws.amazon.com/api-gateway/resources/)
+
+Amazon API Gateway logs to Amazon CloudWatch
+
+## AWS Firewall Manager
+
+Centrally manage firewall rules across the accounts of your AWS Organizations structure.
+
+Types of firewall rules supported are:
+* SGs
+* AWS WAF
+* AWS Network Firewall
+* AWS Shield
+* Amazon Route 53 Resolver DNS Firewall
+* Third-party firewall
+
+## AWS Network Firewall
+
+Fully managed firewall that controls traffic entering/leaving the or VPCs or VPC subnets of an AWS account.
+
+Can work with Direct Connect and VPN traffic too.
+
+Can use stateful inspection and protocol inspection.
+
+Although AWS Network Firewall settings of an AWS account apply to only to the same account, you can use AWS Firewall Manager to centrally configure the AWS Netwok Firewalls of multiple accounts.
+
 ## Does an instance keep its auto-assigned private IPv4 address after stopped and started?
 
 Yes.
@@ -62,7 +102,7 @@ Done:
 - Study Guide exercise 4.9 - Create a blackhole route
 - Does an instance's auto-assigned private IPv4 address get preserved after stopping and starting the instance?
 
-TODO:
+TODO more VPC labs:
 - [NAT instances](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_NAT_Instance.html#basics)
 - AWS Cookbook exercise 2.6 - VPC Reachability Analyzer
 - AWS Cookbook exercise 2.8 - Security group with prefix lists

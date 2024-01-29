@@ -96,3 +96,26 @@ It's for quickly moving huge amounts of data from on-premises environments to AW
 * AWS Snowcone is a small, rugged edge computing and data transfer device that holds up to 14 TB. You copy the data to the physical device and send it back to AWS.
 * AWS Snowball Edge holds up to 80 TB. It plugs into your server rack. It's good for improving processing speed in disconnected, austere edge environments with little or no connectivity. Example use cases are capturing of streams from IoT devices, image compression or industrial signalling. Comes in two types: Storage Optimised and Compute Optimised.
 * AWS Snowmobile. It is used for transferring up to 100 PB of data. 45-ft shipping container, pulled by a truck. It plugs in to your datacentre and appears as a NAS to your servers. Has fire suppression, GPS tracking, 24/7 video surveillance and a security escort.
+
+## AWS Transfer Family
+
+Enables you to use SFTP, FTPS or FTP to transfer files in to or out of Amazon S3 and Amazon EFS.
+
+## AWS Elastic Disaster Recovery (AWS DRS)
+
+Recover your on-prem or cloud-based applications to AWS.
+
+Continuously performs data replication and monitors the data replication too.
+
+Can perform on-demand and periodic testing of disaster recovery to a staging area.
+
+You can launch recovery instances on AWS in minutes using the latest server state or a previous point in time.
+
+After recovery, you can keep your applications on AWS or replicate your data back to your primary site.
+
+You can fail back to your primary site when you're ready.
+
+Use cases:
+* Disaster recovery of on-prem applications to AWS
+* Disaster recovery of Azure applications to AWS
+* Disaster recovery from one AWS region to another

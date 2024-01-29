@@ -27,16 +27,11 @@ AWS provides the AWS Well-Architected Tool to assess your AWS account against th
 There is *no charge* for the AWS Well-Architected Tool.
 
 ## Interesting AWS services
-Directory Service:
-* Enables AWS resources to integrate with identity providers like Amazon Cognito and Microsoft AD domains
+
+
 
 Simple Workflow (SWF):
 * Coordinate a series of tasks involving a range of AWS services or even human events. It provides a programming model and infrastructure that make it easier for you to develop aynchronous and distributed applications.
-
-API Gateway:
-* Lets you create, publish, maintain, monitor and secure RESTful APIs and WebSocket APIs. Handles traffic management, authorisation, access control, throttling, monitoring and API version management
-    * [Amazon API Gateway Overview](https://aws.amazon.com/api-gateway/)
-    * [Amazon API Gateway Resources](https://aws.amazon.com/api-gateway/resources/)
 
 ## Tools for managing your AWS services
 
@@ -111,8 +106,15 @@ Where the Business, People and Governance Perspectives focus on business capabil
 * Build a migration plan
 * Get recommendations from AWS about migration strategy and app refactoring
 
-[AWS Application Migration Service](https://aws.amazon.com/application-migration-service/resources/):
-* Automate many parts of lifting-and-shifting bare-metal servers, VMs and cloud servers to AWS.
+[AWS Application Migration Service](https://aws.amazon.com/application-migration-service/resources/) (AWS MGN):
+* Migrates your on on-prem servers and VMs to EC2 instances.
+* Uses the following process:
+    1. First, you upload a CSV *import template* to S3, specify the S3 path to AWS MGN, and it migrates your on-prem servers and VMs to EC2 in *waves*. A sample import template is below:
+    ![AWS MGN Import Template](aws_mgn_import_template.png)
+    2. Second, you install the AWS MGN agent onto your servers and begin *data replication*.
+    3. Third, you test the EC2 servers
+    4. More steps as performed according to the below *lifecycle*:
+![AWS MGM migration lifecycle](aws_mgn_migration_lifecycle.png)
 
 [AWS Database Migration Service](https://aws.amazon.com/dms/features/)
 * Web service to migrate data from a DB that's on-prem, on an RDS DB instance or in a DB on an EC2 instance
@@ -204,7 +206,7 @@ Use cases:
 * Natural language enterprise search:
     * Amazon Kendra: It's like ChatGPT. Can answer questions like, "When does the IT help desk open?"
 * Text/voice chatbots to help customers or staff:
-    * Amazon Lex: Ready-to-go chatbot
+    * Amazon Lex: Ready-to-go voice and text chatbot, like with Amazon A*lex*a.
     * Amazon Polly: Text-to-speech
     * AWS Conversational AI is a solution consisting of Amazon Lex, Amazon Polly and Amazon Kendra
 * Recommend things to customers:
@@ -240,9 +242,9 @@ Use cases:
 
 ## Customer engagement services
 
-AWS Activate Startup: Give startup companies technical support, architecture guidance and up to $100k in AWS credits for building and scaling on AWS
+AWS Activate for Startups: Give startup companies technical support, architecture guidance and up to $100k in AWS credits for building and scaling on AWS
 
-AWS IQ: Describe what you want to accomplish on AWS with what budget, and find AWS partners or IT professionals who can help you. It's like HiPages for AWS.
+AWS IQ: It's like HiPages for AWS. Describe what you want to accomplish on AWS with what budget, and find AWS partners or IT professionals who can help you.
 
 AWS Managed Services:
 * Monitor for incidents
@@ -271,6 +273,7 @@ AWS CodeDeploy: A deployment tool featuring in-place, canary, blue/green deploym
 AWS CodePipeline: Model, visualise and automate your release pipelines across test, staging and prod environments
 
 AWS CodeStar: Deprecated; to be replaced on 31 July 2024 by Amazon CodeCatalyst
+
 AWS CodeCatalyst: An end-to-end service for managing your software development and testing:
 * Create an Angular/React/Vue template for your code
 * Automatically write code with Amazon Q
@@ -296,14 +299,23 @@ Amazon WorkSpaces Core: Migrate your existing third-party VDI solution, like VMw
 
 ## Frontend web and mobile services
 
-AWS Amplify: Everything you need to build full-stack and mobile apps on AWS. Features:
+### AWS Amplify
+Everything you need to build full-stack and mobile apps on AWS. Features:
 * Hosts your frontend
 * Authenticates and authorises users
 * Stores data
 * Connects to data sources
 * CI/CD
 
-[AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/what-is-appsync.html): Connect your application to real-time data sources using serverless GraphQL and Pub/Sub APIs.
+### [AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/what-is-appsync.html)
+Connect your application to real-time data sources using serverless GraphQL and Pub/Sub APIs.
+
+### AWS Device Farm
+Test your web and mobile apps across a range of browsers and real mobile devices that are housed in the AWS Cloud. Overview:
+![AWS Device Farm overview](aws_device_farm_overview.png)
+
+It even lets you view screenshots from the real devices:
+![Screenshots that AWS Device Farm took from real mobile devices](aws_device_farm_mobile_screenshots.png)
 
 ## IoT services
 
