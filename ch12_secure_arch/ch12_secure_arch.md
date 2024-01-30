@@ -121,14 +121,30 @@ However, [AWS Security Documentation](https://docs.aws.amazon.com/security/) is 
 
 [AWS Security Blog](https://aws.amazon.com/blogs/security/) is a list of security-related posts from [AWS Blog](https://aws.amazon.com/blogs)
 
-## TODO AWS Certificate Manager
+## AWS Certificate Manager
 
-## TODO AWS CloudHSM
+Create, manage and renew SSL/TLS certs
 
-## TODO AWS Directory Service
+## AWS CloudHSM
 
-## TODO Amazon Detective
+Generate crypto keys
 
-## TODO Amazon Macie
+## AWS Directory Service
 
-## TODO AWS Resource Access Manager (AWS RAM)
+It's a fully managed AD on AWS. Used to be called AWS Managed Microsoft AD (AWS MMAD)
+
+## Amazon Detective
+
+Help you to find the root cause of security findings or suspicious activities by creating *visualisations* based on ML, statistical analysis and graph theory.
+
+## Amazon Macie
+
+Help you identify and protect PI and SPI in S3 by using ML and pattern matching.
+
+## AWS Resource Access Manager (AWS RAM)
+
+Help you to share certain resources across AWS accounts or OUs. Shareable AWS resources include EC2 dedicated hosts, Route 53 resolver rules, Network Firewall policies and customer-owned IPv4 addresses.
+
+Use cases:
+* You spent a lot of money to buy something and you want to share that thing across your AWS accounts
+* You configured something and don't want to repeat that configuration across your AWS accounts
