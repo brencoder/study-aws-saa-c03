@@ -13,7 +13,9 @@ AWS and customer "share" responsibility for:
 
 Customer is totally responsible for their applications
 
-## AWS Organizations
+## 1.1S4 Security strategy for multiple AWS accounts
+
+### AWS Organizations
 Advantages:
 * Multi-account management
 * Consolidated billing
@@ -25,6 +27,8 @@ In detail:
 * Centrally audit, monitor and secure all your accounts. E.g., use the management account's GuardDuty or CloudTrail to alert on and monitor events across all your accounts.
 * Channel billing through a single payer
 * Define security guardrails across all accounts
+
+
 
 ## Compliance
 
@@ -148,3 +152,9 @@ Help you to share certain resources across AWS accounts or OUs. Shareable AWS re
 Use cases:
 * You spent a lot of money to buy something and you want to share that thing across your AWS accounts
 * You configured something and don't want to repeat that configuration across your AWS accounts
+
+## Amazon Cognito
+
+A service that can authenticate user access to your web/mobile applications and AWS resources. The authentication can be delegated to a third-party IdP. Amazon Cognito can act as a layer of abstraction between IdPs and your application.
+
+See [Common Amazon Cognito scenarios](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-scenarios.html)
