@@ -334,9 +334,25 @@ Good for event-driven computing. Every Lambda function runs only when "triggered
 
 If triggers occur too frequently or take rather long to process, Lambda automatically scales up the compute capacity for you.
 
-Good for short-running function. Lambda has a limit of 15 minutes for processing a request
+Good for short-running functions. Lambda has a limit of 15 minutes for processing a request
 
 You pay only for the compute time that you consume.
+
+#### Lambda permissoins
+
+Each Lambda function has two types of permissions:
+
+* *Execution role* that defines what the Lambda function may do with other AWS services.
+* *Resource-based policy* that defines which users and AWS services may call the Lambda function.
+
+
+If you create a Lambda function via the Lambda console, AWS automatically creates an execution role for the Lambda function, where the exeuction role allows logging to the Lambda function's CloudWatch Logs log group, `/aws/lambda/<function name>`.
+
+#### Lambda networking
+
+By default, a Lambda function can make requests to the internet and is not part of a VPC.
+
+However, you can choose to make a Lambda function part of a VPC. In this case, you specify which subnets and security group IDs the function will use.
 
 ### ECS
 

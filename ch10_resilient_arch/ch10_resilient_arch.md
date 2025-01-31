@@ -56,14 +56,68 @@ Tightly coupled - synchronous. Monolithic. If a single component fails, other co
 
 Loosely coupled - asynchronous. Distributed. If a single component fails, the other components continue to work because they communication with each other via a third-party.
 
-SQS:
+### SQS:
 * Uses "queues" in a producer-consumer model.
 * There is a party at each end of the queue.
 * A queue has a single direction, so there is a producer and consumer.
 * The producer puts messages on the queue and the consumer reads messages from the queue.
 * No messages are lost. SQS guarantees this.
+* Billed by number of API requests.
+* Two types of queues: Standard and FIFO
 
-SNS:
+#### Standard queues
+
+* Best-effort ordering: Messages are usually, but not always, delivered in the order they were sent.
+* At-least-once-delivery: A message is guaranteed to be delivered but could be delivered multiple times.
+* Unlimited throughput: A nearly unlimited number of API calls per second.
+
+#### FIFO queues
+
+* Guaranteed order of delivery
+* Exactly-once delivery
+* Limited throughput: FIFO queues process up to:
+   * 3000 messages per second *per API method* if you use batching (that is, if you call `SendMessageBatch`, `ReceiveMessageBatch` or `DeleteMessageBatch`). In particular, up to 300 API calls per second, with each API call handling a batch of 10 messages.
+   * 300 messages per second if you do not use batching.
+   * 70000 messages per second without batching and even higher with batching if you use *high throughput mode*
+
+#### Choosing between standard and FIFO queues
+
+Choose FIFO queues if order is essential and lack of duplicate messages is essential.
+
+#### Dead-letter queues
+
+When you create a dead-letter queue, you specify the *maximum receives* value, which is the number of times a message can be received before being sent to the dead-letter queue
+
+Note: The maximum receives value is set during creation of a dead-letter queue, not during creation of a source queue.
+
+If a message stays in a dead-letter queue for too long, the *dead-letter queue redrive* feature moves the unconsumed message to a *redrive destination*, for example, the source queue. Note that the dead-letter queue and redrive destination must be of the same type. For example, if the dead-letter queue is standard queue, the redrive destination must be a standard queue, too.
+
+#### Delay queues
+
+A setting of a queue. It specifies how long a message remains hidden from consumers after the message is *first added* to the queue. Maximum value is 15 minutes. Defaults to 0 seconds.
+
+A delay queue is not a type of queue. It is the *delivery delay* option of the queue creation API.
+
+If you want to configure the enqueue hiding period *per-message*, then you set a *message timer* or *delivery delay* when sending a message.
+
+#### Visibility timeout
+
+A setting of a queue or message. It specifies how long a message remains hidden from consumers after the message is received via `ReceiveMessage` or `ReceiveMessageBatch`. Maximum value is 12 hours. Defaults to 30 seconds.
+
+If you need a longer limit, consider using AWS Step Functions or breaking the task into smaller steps.
+
+The consumer should call the `DeleteMessage` API before the visibility timeout expires. Otherwise, the message re-appears on the queue. Certain AWS SDKs automatically call `DeleteMessage` for you after successful processing of a message. 
+
+You configure the per-queue visibility timeout when creating a queue.
+
+You configure the per-message visibility timeout by calling the `ChangeMessageVisibility` action. 
+
+#### Comparing delay queues and visibility timeouts
+
+Both delay queues and visibility timeouts temporarily hide a message. The difference is *when* the hiding starts. With delay queues, the hiding starts when the message is first added to a queue. With visibility timeouts, the hiding starts when the message is received.
+
+
+### SNS:
 * Uses "topics" in a publish-subscribe model.
 * You send or publish a message to a topic, and the message will "fan-out" to all subscribers or endpoints in a single go. It's like multi-cast.
 * Subscribers could be SQS queues, Lambda functions, HTTPS web hooks or even users' mobile push (app notification), SMS and email.

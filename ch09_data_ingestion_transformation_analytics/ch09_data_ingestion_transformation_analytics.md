@@ -28,6 +28,34 @@ Can be split into three types:
     * Amazon Redshift ML: Provides a SQL interface to create and train ML models in Amazon SageMaker. Saves you from having to learn Amazon SageMaker's tools and languages, and saves you from having to know much about ML.
 
 
+## Amazon Kinesis
 
-Amazon Kinesis: Process and analyse streams of real-time data, like application logs, IoT telemetry data, video and audio to targets. Consists of three products:
-* Amazon Kinesis Data Analytics:
+Process and analyse streams of real-time data, like application logs, IoT telemetry data, video and audio to targets. Consists of two products:
+* Amazon Kinesis Data Streams
+* Amazon Kinesis Video Streams
+
+Note:
+* Amazon Kinesis Data Analytics was renamed to Amazon Managed Service for Apache Flink on 30 Aug 2023
+* Amazon Kinesis Data Firehose was renamed to Amazon Data Firehose on 9 Feb 2024
+
+### [Amazon Kinesis Data Streams](https://docs.aws.amazon.com/streams/latest/dev/introduction.html)
+
+Ingest lots of data from lots of applications or devices
+
+Producers send data into a Kinesis stream from low to near infinite data rates
+
+Streams store a 24-hour moving window of data, but window can be increased to up to 365 days for additional cost
+
+Multiple consumers access data from the moving window
+
+Use case: Analytics and dashboards
+
+A stream consists of shards. Each shard provides 1 MB ingestion capacity and 2 MB consumption capacity
+
+Data is stored in Kinesis Data Records, each up to 1 MB in size. Kinesis Data Records are stored across shards.
+
+### Amazon Kinesis Video Streams
+
+## Amazon Data Firehose
+
+Reads data arriving from a Kinesis stream and writes the data to another AWS location, e.g., S3 bucket`
