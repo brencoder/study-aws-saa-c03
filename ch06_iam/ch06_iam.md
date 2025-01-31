@@ -99,9 +99,22 @@ To create a role for an IAM user, you specify:
 * Which *permissions policies*, if any, to attach to the role.
 * Which *permissions boundary*, if any, to attach to the role
 
-To use a role
+### Use cases for roles
 
-### Service-linked roles
+* *Federated user access* - To assign permissions to a federated identity.
+* *Temporary IAM user/role permissions* - So am IAM user or roleto temporarily take on different permissions for a specific task.
+* *Cross-account access* - To allow an AWS service to use features from other AWS services. In particular:
+    * *Forward access sessions (FAS)* - To allow a service to fulfil an IAM user/role's request that requires calling another AWS service. For example, to allow S3 to fulfil an S3 *PutObject* request in a bucket where SSE-KMS encryption is enabled.
+    * *Service role* - An IAM instance profile is an example of this. For example, an IAM instance profile that allows EC2 to list an S3 bucket.
+    * *Service-linked role* - A role that is owned by an AWS service and managed by AWS. An IAM administrator can view but not edit the permissions of a service-linked role.
+
+### Naming roles
+
+* Role names must be unique within an AWS account.
+* Case cannot be used to make a role name unique.
+* Although a role name is case-sensitive when used in a policy or as part of an ARN, a role is case insensitive when specified in the 'assume role' window of the AWS Management Console.
+* You can't rename a role after it has been created because other entities might refer to the role.
+
 
 
 ## Permissions boundaries
