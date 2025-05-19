@@ -48,6 +48,18 @@ Specify minimum length, minimum character types, expiration, lockout settings an
 
 Does not apply to the root user or IAM user access keys.
 
+## Principals
+
+A principal is an IAM resource that can authenticate to IAM. Users, roles and the root user are the only three types of IAM entities. Groups are not a type of principal.
+
+## Group
+
+Also called a *user group*. It is a set of users. You can assign policies to a group but you cannot authenticate as a group, and you cannot reference a group as a principal in an IAM policy.
+
+As [IAM user groups (amazon.com)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html) says, "You cannot identify a user group as a Principal in a policy (such as a resource-based policy) because groups relate to permissions, not authentication, and principals are authenticated IAM entities."
+
+Also, groups cannot be nested. A group can contain users but not other groups.
+
 ## Permissions boundary
 
 A [permissions boundary](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) is a list of allowed and denied actions. It is specified in IAM JSON policy format. Every action that is not explicitly allowed in the permissions boundary is denied. If the permissions boundary allows and denies the same action, then the denial takes precedence.
@@ -105,8 +117,8 @@ To create a role for an IAM user, you specify:
 * *Temporary IAM user/role permissions* - So am IAM user or roleto temporarily take on different permissions for a specific task.
 * *Cross-account access* - To allow an AWS service to use features from other AWS services. In particular:
     * *Forward access sessions (FAS)* - To allow a service to fulfil an IAM user/role's request that requires calling another AWS service. For example, to allow S3 to fulfil an S3 *PutObject* request in a bucket where SSE-KMS encryption is enabled.
-    * *Service role* - An IAM instance profile is an example of this. For example, an IAM instance profile that allows EC2 to list an S3 bucket.
-    * *Service-linked role* - A role that is owned by an AWS service and managed by AWS. An IAM administrator can view but not edit the permissions of a service-linked role.
+    * *AWS service role* - A type of IAM role that an AWS service assumes to perform actions on your behalf. An IAM administrator (or anyone having the *iam:CreateServiceLinkedRole* permission on resource "arn:aws:iam::*:role/aws-service-role/*") can create, modify and delete an AWS service role. An AWS service role can grant permissions relating to multiple AWS services. An IAM instance profile is an example of an AWS service role. For example, an IAM instance profile that allows EC2 to list an S3 bucket and log to CloudWatch Logs.
+    * *AWS service-linked role* - A type of service role that is linked to an AWS service. Only the AWS service can assume one of its service-linked roles. No other users or roles can assume the service's service-linked roles. A service-linked role is owned by an AWS service and managed by AWS. An IAM administrator can view but not edit the permissions of a service-linked role. For example, see [Service-linked role for Spot Instance requests](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/service-linked-roles-spot-instance-requests.html). Some AWS services fully support service-linked roles (e.g., [Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html)), others partially support it (e.g., EC2) and others do not support it at all (e.g., DynamoDB). See: [Services that work with IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html#all_svcs).
 
 ### Naming roles
 
@@ -115,7 +127,14 @@ To create a role for an IAM user, you specify:
 * Although a role name is case-sensitive when used in a policy or as part of an ARN, a role is case insensitive when specified in the 'assume role' window of the AWS Management Console.
 * You can't rename a role after it has been created because other entities might refer to the role.
 
+### Permitting a user to pass a role to an AWS service
 
+You pass a role to an AWS service if you need an AWS service to assume the role later to perform actions on your behalf. For example, you can attach an IAM permissions policy to an IAM user, where the IAM permissions policy allows the user to pass a specified role to EC2, where:
+
+* The role's permissions policy grants certain permissions
+* The role's trust policy allows the EC2 service to assume the role
+
+As [Grant a user permissions to pass a role to an AWS service](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html) says, "A user can pass a role ARN as a parameter in any API operation that uses the role to assign permissions to the service. The service then checks whether that user has the iam:PassRole permission. To limit the user to passing only approved roles, you can filter the iam:PassRole permission with the Resources element of the IAM policy statement."
 
 ## Permissions boundaries
 
