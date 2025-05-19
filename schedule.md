@@ -34,7 +34,7 @@ Take SAA-C03 on Mon 15 Dec 2025.
 
 3. Complete my own projects using Terraform in Sep/Oct:
 
-    * Host a containerised RESTful Python microservice in K8s on AWS. e.g., CRUD interface for /books, where each book has the schema {"id": int, "title": str, "author": str}. Pre-req: Read [Implementing Microservices on AWS](https://docs.aws.amazon.com/whitepapers/latest/microservices-on-aws/microservices-on-aws.html) by 28 Sep
+    * Host a containerised RESTful Python microservice in K8s on AWS by 28 Sep. e.g., CRUD interface for /books, where each book has the schema `{"id": int, "title": str, "author": str}`
     * Host my study notes on AWS using AWS Mgmt Console by 5 Oct
 
 4. Complete [AWS Well-Architected Labs](https://wellarchitectedlabs.com/) in Oct/Nov:
