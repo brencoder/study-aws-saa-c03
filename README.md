@@ -4,6 +4,7 @@ Brendon's notes and code for the AWS Certified Solutions Architect - Associate (
 
 ## Contents
 
+* [Schedule](schedule.md)
 * [Chapter 1 - Introduction](ch01_intro/ch01_intro.md)
 * [Chapter 2 - Compute services](ch02_compute/ch02_compute.md)
 * [Chapter 3 - Storage](ch03_storage/ch03_storage.md)
