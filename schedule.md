@@ -54,8 +54,10 @@ Take SAA-C03 on Mon 15 Dec 2025.
     * Tutorialsdojo practice exam (paid, optional)
     * AWS' official practice exam (paid, optional)
 
+6. Take exam on 15 Dec
+
 Whenever I get time:
 
-    * Review re:Invent 2023.
-    * Review re:Invent 2024.
-    * Review [AWS blogs](https://aws.amazon.com/blogs)
+* Review re:Invent 2023.
+* Review re:Invent 2024.
+* Review [AWS blogs](https://aws.amazon.com/blogs)
