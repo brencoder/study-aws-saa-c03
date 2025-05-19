@@ -1,5 +1,7 @@
 # Chapter 12 - Secure Architectures
 
+
+
 ## AWS Shared Responsibility Model
 
 AWS is fully responsible for:
@@ -67,6 +69,16 @@ Types of suspicious web requests detected are:
 * SQLi
 * XSS
 * Custom patterns
+
+## KMS
+
+KMS consists of three types of keys:
+
+* Customer managed key: Monthly fee for existence of keys (pro-rated hourly).
+  Also charged for key usage.
+* AWS managed keys: Deprecated in 2021. Replaced by AWS owned keys
+* AWS owned keys: Not viewable by customer. No charges for customer. AWS
+  manages rotation, deletion and Regional location
 
 ## Encryption
 

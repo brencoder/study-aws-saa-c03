@@ -51,6 +51,23 @@ Although an S3 bucket belongs to only one region, an S3 bucket's name must be gl
 
 You can also use an *S3 Lifecycle policy* to automatically move a bucket between storage classes according to a schedule that you define. For example, you could keep data in S3 Standard at first, then move it to S3 Standard-IA after three months, and then S3 Glacier Flexible Retrival after one year.
 
+### S3 encryption
+
+See [Data Encryption - S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingEncryption.html)
+
+Options:
+
+* Client-side encryption. This gives you the most control but also the most work.
+* Server-side encryption with customer managed keys (SSE-C)
+* Server-side encryption with S3 managed keys (SSE-S3). Enabled by default.
+  Convenient but you can't perform separation of duties regarding the key.
+  Also, you can't control the rotation of the key.
+* Server-side encryption with AWS KMS keys (SSE-KMS).
+* Dual-layer server-side encryption with AWS KMS keys (DSSE-KMS)
+
+By default, SSE-S3 is enabled in S3 bucket policies and all new objects that
+are uploaded to an S3 bucket are encrypted by SSE-S3.
+
 ## Other types of lifecycle policy, apart from S3
 
 * Bucket lifecycle policy
