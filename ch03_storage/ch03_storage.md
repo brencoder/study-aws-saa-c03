@@ -24,32 +24,53 @@ When you modify a file in block storage, only the pieces that are changed are up
 
 Maximum file size is 5 TB, although the Amazon S3 console allows a maximum file size of only 160 GB. To upload files that are greater than 160 GB but less than or equal to 5 TB, use the AWS CLI, AWS SDKs or Amazon S3 REST API.
 
+Although an S3 bucket belongs to only one region, an S3 bucket's name must be globally unique across all regions.
+
+You can also use an *S3 Lifecycle policy* to automatically move a bucket between storage classes according to a schedule that you define. For example, you could keep data in S3 Standard at first, then move it to S3 Standard-IA after three months, and then S3 Glacier Flexible Retrival after one year.
+
+
+### S3 storage classes
+
 S3 has different tiers of storage, called *storage classes*, with details [here](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html). To choose the right storage class, consider:
 * Resiliency: How well you could deal with the data being lost or corrupted?
 * Retrieval time: How quickly do you want AWS to send the object to you upon request?
 * How frequently you need to access your data
 * Cost for storage and retrieval
 
-Storage classes are:
+Generally, you would choose S3 Standard or S3 Intelligent-Tiering as your storage class.
 
-| Storage Class | Description |
-| --- | --- |
-| S3 Standard |  Default storage class. It has 11 nines of durability. That is, 99.999999999% probability that a file in S3 Standard will remain intact after one year. To achieve this, data is stored in at least three Availability Zones. |
-| S3 Express One Zone | Fastest retrieval time. It's based on S3 Standard, but stores your data in only one AZ. As a result, you can read the data up to 10x faster than you could with S3 Standard (hence *Express*) and you save around 50% compared with S3 Standard because you sacrifice the availability of your data |
-| S3 Standard-IA (Infrequent Access) | Suitable for data that must be kept for a long time, is not accessed frequently but needs to be available rapidly when required. Although you pay less for storing data in S3 Standard-IA, you must pay for reading the data. |
-| S3 One Zone-IA | Like S3 Standard-IA, where you pay to access your data, but you store your data in a single AZ only to get a discount |
-| S3 Intelligent-Tiering | If you're unsure of how frequently accessed your data will be, or the rate of access could change over time, then S3 Intelligent-Tiering could be the most appropriate option. How itIt moves objects from S3 Standard after a default of 30 days of inactivity to S3 Standard-IA, and moves objects back to Standard when they are accessed again. If you enable the Archive Access tier, then if the item hasn't been accessed for a default of 90 days, it is moved to the S3 Glacier storage class. |
-| S3 Glacier Flexible Retrieval (formerly S3 Glacier) | Suitable for audit data, or other data that is rarely accessed and does not require immediate access. Can create an *archive* within a *vault*. Can even *lock* your vault. Can specify a *vault lock policy*, such as write once/read many (WORM). Options for retrieval range from minutes to hours |
-| S3 Glacier Instant Retrieval | Like S3 Glacier Flexible Retrieval but more expensive because you are guaranteed millisecond access to your data |
-| S3 Glacier Deep Archive | Lowest cost storage but data retrieval could take between 12 to 48 hours. Data is stored in at least 3 AZs, so the data is highly available |
-| S3 Outposts | Stores objects in your on-premises AWS Outposts environment. Good if you have strict local data residency requirements or need extremely high performance |
+Summary:
 
+| Storage Class | Use case | Description |
+| --- | --- | --- |
+| S3 Standard | Frequently accessed data (> 1 / month) with millisecond access | Default storage class. It has 11 nines of durability. That is, 99.999999999% probability that a file in S3 Standard will remain intact after one year. To achieve this, data is stored in at least three Availability Zones. |
+| S3 Standard-IA (Infrequent Access) | Long-lived, infrequently accessed (~ 1 / month) with millisecond access | Suitable for data that must be kept for a long time, is not accessed frequently but needs to be available rapidly when required. Although you pay less for storing data in S3 Standard-IA, you must pay for reading the data. Minimum billable object size is 128 kB. Minimum billable storage duration of 30 days. |
+| S3 Express One Zone | Super fast access for latency-sensitive apps in a single AZ | Fastest retrieval time. It's based on S3 Standard, but stores your data in only one AZ. As a result, you can read the data up to 10x faster than you could with S3 Standard (hence *Express*) and you save around 50% compared with S3 Standard because you sacrifice the availability of your data |
+| S3 One Zone-IA | Recreatable, infrequently accessed (~ 1 / month) with millisecond access | Like S3 Standard-IA, where you pay to access your data, but you store your data in a single AZ only to get a discount |
+| S3 Intelligent-Tiering | Data with unknown, changing or unpredictable access patterns | If you're unsure of how frequently accessed your data will be, or the rate of access could change over time, then S3 Intelligent-Tiering could be the most appropriate option. It moves objects from tier Frequent Access tier after a default of 30 days of inactivity to the Infrequent Access tier, and moves objects back to the Frequent Access tier when they are accessed again. If you enable the Archive Access tier, then if the item hasn't been accessed for a default of 90 days, it is moved to the S3 Glacier storage class. |
+| S3 Glacier Flexible Retrieval | Long-lived archive data, accessed ~ 1 / year with minutes - hours retrieval | Recommended for data you access only every half-year, where you are happy to wait between a few minutes or up to 12 hours to retrieve the data. |
+| S3 Glacier Instant Retrieval | Long-lived archive data, accessed ~ 1 / quarter with millisecond access | Like S3 Glacier Flexible Retrieval but more expensive because you are guaranteed millisecond access to your data. It is also like S3 Standard-IA except with 68% lower storage costs and higher retrieval costs. |
+| S3 Glacier Deep Archive | Long-lived archive data, accessed < 1 / year with 9-48 hour retrieval | Lowest cost storage. Data is stored in at least 3 AZs, so the data is highly available |
+| S3 Outposts | Where you host S3 on-prem | Stores objects in your on-premises AWS Outposts environment. Good if you have strict local data residency requirements or need extremely high performance |
 
-If in doubt, choose S3 Standard or S3 Intelligent-Tiering as your storage class.
+Some numbers in us-east-1:
 
-Although an S3 bucket belongs to only one region, an S3 bucket's name must be globally unique across all regions.
+| Storage Class | Number of zones | Storage cost per GB per month | PUT, COPY, POST, LIST cost per 1k requests | GET, SELECT and all other request cost per 1k requests | Retrieval timeframe | Minimum billable object size | Minimum billable storage duration | Other costs | Available in ap-southeast-2? |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| S3 Standard | >= 3 | $0.021 - $0.023 | $0.005 | $0.0004 | ms | N/A | N/A | N/A | Yes |
+| S3 Express One Zone | 1 | $0.11 (0.5x std) | **$0.00113 (5x std)** | $0.00003 (0.075x std) | **< 10 ms (up to 10x faster than std)** | N/A | N/A | **Data upload cost of $0.0032 per GB. Data retrieval cost of $0.0006 per GB** | **No** |
+| S3 Standard-IA (Infrequent Access) | 3 | $0.0125 (0.6x std) | $0.01 (2x std) | $0.001 (2.5x std) | ms | **128 kB** | 30 days | N/A | Yes |
+| S3 One Zone-IA | 1 | **$0.01 (0.5x std)** | $0.01 (2x std) | $0.001 (2.5x std) | ms | **128 kB** | 30 days | N/A | Yes |
+| S3 Intelligent-Tiering | >= 3 | From **$0.00099** (Deep Archive Access Tier) to $0.023 (Frequent Access Tier) | $0.005 (= std) | $0.0004 (= std) | "Low latency" for the Frequent Access, Infrequent Access and Archive Instant Access tiers but same performance as S3 Glacier Flexible Retrieval for the Archive Access tier, i.e., 3-5 hours | **128 kB** | N/A | Monthly object monitoring and automation fee | Yes |
+| S3 Glacier Flexible Retrieval | >= 3 | $0.0036 (0.2x std) | $0.03 (6x std) | $0.0004 (= std) but **expedited retrieval is $10 per 1k requests**, standard retrieval is $0.05 per 1k requests and bulk retrieval is free | **Choose** between three retrieval tiers: *Expedited* (1-5 minutes, subject to demand); *Standard* (3-5 hours, or 1 minute to 5 hours when you use S3 Batch Operations); and *Bulk* (5-12 hours) | N/A | 90 days | For each object, charge for 40 kB metadata | Yes |
+| S3 Glacier Instant Retrieval | >= 3 | $0.004 (0.2x std) | $0.02 (4x std) | **$0.01 (25x std)** | ms, same as Standard-IA |  **128 kB** | 90 days | Lifecycle transition request. Data retrieval charge of $0.03 per GB | Yes |
+| S3 Glacier Deep Archive | >= 3 | **$0.00099 (0.05x std)** | **$0.05 (10x std)** | **9-12 hours for Standard or 48 hours for Bulk**| N/A | **180 days** | For each object, charge for 40 kB metadata. Lifecycle transition cost of $0.05. Data retrieval cost of $0.0025 per GB for Bulk or $0.02 per GB for Standard retrieval| Yes |
 
-You can also use an *S3 Lifecycle policy* to automatically move a bucket between storage classes according to a schedule that you define. For example, you could keep data in S3 Standard at first, then move it to S3 Standard-IA after three months, and then S3 Glacier Flexible Retrival after one year.
+For S3 Outposts pricing, see [AWS Outposts racks Pricing](https://aws.amazon.com/outposts/rack/pricing/)
+
+AWS still offers a service called just *S3 Glacier* but it is deprecated and you should use the *S3 Glacier storage classes* instead. There are three S3 Glacier storage classes and they were introduced above. That is, S3 Glacier Flexible Retrieval, S3 Glacier Instant Retrieval and S3 Glacier Deep Archive.
+
+With the S3 Glacier service, you can't use the S3 API. You use a dedicated S3 Glacier API where you store your data in an *archive*, where an archive is in a *vault*. Can even *lock* your vault. Can specify a *vault lock policy*, such as write once/read many (WORM). Options for retrieval range from minutes to hours
 
 ### S3 encryption
 
